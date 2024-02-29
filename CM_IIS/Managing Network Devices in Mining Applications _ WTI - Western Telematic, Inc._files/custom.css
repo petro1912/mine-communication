@@ -1,0 +1,29 @@
+.b-chat-btn.b-open.b-queue-state-online button {
+    background-image: url(https://cloud.chatbeacon.io/chatbeacon/content/images/wti/chatbtn.svg);
+}
+
+.b-chat-btn.b-open.b-queue-state-lunch button {
+    background-image: url(https://cloud.chatbeacon.io/chatbeacon/content/images/wti/lunch.svg);
+}
+
+.b-chat-btn.b-open.b-queue-state-away button,
+.b-chat-btn.b-open.b-queue-state-custom button {
+    background-image: url(https://cloud.chatbeacon.io/chatbeacon/content/images/wti/away.svg);
+}
+
+.b-chat-btn.b-open.b-queue-state-backin5 button {
+    background-image: url(https://cloud.chatbeacon.io/chatbeacon/content/images/wti/backin5.svg);
+}
+
+
+    .blue[data-beacon-role='marquee'] > div:first-child {
+        background: linear-gradient(-60deg, #3e3e3f, #3e3e3f);
+    }
+
+
+.blue[data-beacon-role='marquee'] .accept-marquee .banner::after {
+    content: 'Want to know more?';
+}
+.blue[data-beacon-role='marquee'] .accept-marquee .avatar {
+   visibility: hidden;
+}

@@ -1,0 +1,153 @@
+define("/Assets/enp/2022/js/module/e-module-202209070955.js", ["/Assets/enp/2022/js/library/ebg/e-zoom.js", "/Assets/enp/v2/js/vendor/swiper-5.3.6.min.js"], function (s, pub) {
+
+
+    if ($('.e-module-202209070955').length > 0) {
+        function module202209070955Fun($target) {
+            var module202209070955Obj = {
+                init: function () {
+
+                    // 获取属性
+                    this.win = $(window);
+                    this.moduleObj = $target;
+
+                    this.resizeInit(); // resize初始化
+                    this.judgmentPcWap(); // 判断移动还是pc端
+                    this.lazyPicLink(); // 视频是否图片
+                    this.resizeEvent(); // 设置自适应
+                },
+                resizeInit: function () {
+                    this.winw = this.win.width();
+                    this.winh = this.win.height();
+
+                    // 清除pc端设置的参数
+                    this.clearPcArgument();
+
+                    // 获取位置
+                    this.scrollTop = this.win.scrollTop();
+                    this.moduleTop = this.moduleObj.offset().top;
+                },
+                clearPcArgument: function () {
+                    if (this.winw < 1200) {
+                        this.moduleObj.find('.arch-img img').css({
+                            'max-width': 'none',
+                            'width': '100%'
+                        })
+                        this.moduleObj.find('.arch-r-con').css({
+                            'max-height': 'none'
+                        })
+                    } else {
+                        this.moduleObj.find('.arch-img img').css({
+                            'max-width': 'none',
+                            'width': 'auto'
+                        })
+                        this.moduleObj.find('.arch-r-con').css({
+                            'max-height': 'none'
+                        })
+                    }
+                },
+                judgmentPcWap: function () {
+                    // 判断首页是pc还是移动，如果是移动端就显示放大图片的按钮
+                    if (this.winw < 992) {
+                        this.clickEvent();
+                    }
+                    // 判断首页是pc还是移动，如果是pc端就需要计算左右的高度，把图片的高度赋值给右边文字的高度
+                    if (this.winw > 1200) {
+                        this.setRightBoxHeight();
+                    }
+                },
+                setRightBoxHeight: function () {
+                    var conHeight = this.moduleObj.find('.pic').height() - parseInt(this.moduleObj.find('.arch-right').css('padding-top')) - parseInt(this.moduleObj.find('.arch-right').css('padding-bottom'));
+
+                    // 设置右边内容区域的高度
+                    this.moduleObj.find('.arch-r-con').css({
+                        'max-height': conHeight
+                    })
+                },
+                lazyPicLink: function () {
+                    // 加载图片
+                    if (this.scrollTop + this.winh * 1.5 > this.moduleTop) {
+                        // 当滚动条滚动到当前位置时，加载视频
+                        this.moduleImgObj = this.moduleObj.find(".arch-img img");
+                        var originalImg = this.moduleImgObj.attr("data-original");
+                        if (this.moduleImgObj.attr("src") != originalImg) {
+                            this.moduleImgObj.attr("src", originalImg)
+                        }
+                    }
+                },
+                clickEvent: function () {
+
+                    // 获取对象
+                    var lookFullBtn = this.moduleObj.find('.full-img');
+                    var viewBox = this.moduleObj.find('.view-box');
+                    var closeFull = this.moduleObj.find('.view-box .close-full');
+
+                    // 点击放大按钮，弹框
+                    lookFullBtn.on('click', function () {
+                        var oImg = $(this).parent('.arch-img').find('img').attr('data-original');
+                        viewBox.find('img').attr('src', oImg);
+                        viewBox.fadeIn(400);
+                        $('body').css('overflow', 'hidden')
+                        eZoom(viewBox.find('img'))
+                    })
+                    // 点击关闭按钮关闭弹框
+                    closeFull.on('click', function () {
+                        viewBox.fadeOut(400)
+                        $('body').css('overflow', 'auto')
+                    })
+                    // 点击弹框的黑色遮罩，关闭弹框
+                    viewBox.on('click', function () {
+                        viewBox.fadeOut(400)
+                        $('body').css('overflow', 'auto')
+                    })
+                },
+                scrollEvent: function () {
+                    var _this = this;
+
+                    _this.win.on('scroll.202209070955', function () {
+
+                        // 获取位置
+                        _this.scrollTop = _this.win.scrollTop();
+                        _this.moduleTop = _this.moduleObj.offset().top;
+
+                        _this.lazyPicLink(); // 视频是否图片
+                    });
+                },
+                resizeEvent: function () {
+                    // 页面resize事件
+                    var _this = this;
+                    var resizeWinw = 0;
+                    var resizeTimer = '';
+                    this.win.on('resize.202209070955', function () {
+                        var winw = _this.win.width();
+                        if (winw != resizeWinw) {
+                            currentWinw = winw;
+                            // 删除之前的定时器
+                            if (resizeTimer) {
+                                clearTimeout(resizeTimer);
+                            }
+                            // 添加新的定时器
+                            resizeTimer = setTimeout(function () {
+                                _this.resizeInit(); // resize初始化
+                                _this.judgmentPcWap(); // 判断移动还是pc端
+                            }, 100)
+                        }
+                    })
+                }
+            };
+            module202209070955Obj.init();
+        }
+
+        // 初始化
+        $('.e-module-202209070955').each(function () {
+            // 防止js文件被执行2次。
+            var _this = $(this);
+            if (_this.data('init')) {
+                return;
+            }
+            _this.data('init', true);
+            module202209070955Fun($(this));
+        })
+    }
+
+
+});

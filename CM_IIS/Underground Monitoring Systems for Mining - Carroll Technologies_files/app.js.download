@@ -1,0 +1,308 @@
+$(document).foundation()
+
+
+$("#detail-Tunnels").hide();
+// $("#detail-Construction").hide();
+$("#detail-Steel").hide();
+$("#detail-Mining").hide();
+
+$("#section-account-details").hide();
+$("#section-payment-methods").hide();
+$("#sections-addresses").hide();
+$("#sections-downloads").hide();
+
+$("#section-header-newsletter-open").hide();
+
+$("#to-close").hide();
+
+$("#mb-menu-block").hide();
+
+$("#mb-block-products-open").hide();
+
+
+$("#detail-Renewable").show();
+
+$("#detail-Offshore").hide();
+
+$("#detail-Construction").hide();
+
+$("#detail-Steel").hide();
+
+$("#detail-Mining").hide();
+
+$("#detail-Tunnelling").hide();
+
+$(document).ready(function(){
+
+    $("#mining-Mining").click(function(){
+        $("#detail-Steel").hide();
+        $("#detail-Tunnels").hide();
+        $("#detail-Construction").hide();
+        $("#detail-Mining").show();
+
+        $("#mining-Steel").removeClass("list-industry-active");
+        $("#mining-Tunnels").removeClass("list-industry-active");
+        $("#mining-Construction").removeClass("list-industry-active");
+        $("#mining-Mining").addClass("list-industry-active");
+    });
+   
+    $("#mining-Steel").click(function(){
+        $("#detail-Steel").show();
+        $("#detail-Tunnels").hide();
+        $("#detail-Construction").hide();
+        $("#detail-Mining").hide();
+
+        $("#mining-Steel").addClass("list-industry-active");
+        $("#mining-Tunnels").removeClass("list-industry-active");
+        $("#mining-Construction").removeClass("list-industry-active");
+        $("#mining-Mining").removeClass("list-industry-active");
+    });
+    $("#mining-Tunnels").click(function(){
+        $("#detail-Steel").hide();
+        $("#detail-Tunnels").show();
+        $("#detail-Construction").hide();
+        $("#detail-Mining").hide();
+
+        $("#mining-Steel").removeClass("list-industry-active");
+        $("#mining-Tunnels").addClass("list-industry-active");
+        $("#mining-Construction").removeClass("list-industry-active");
+        $("#mining-Mining").removeClass("list-industry-active");
+    });
+    $("#mining-Construction").click(function(){
+        $("#detail-Steel").hide();
+        $("#detail-Tunnels").hide();
+        $("#detail-Construction").show();
+        $("#detail-Mining").hide();
+
+        $("#mining-Steel").removeClass("list-industry-active");
+        $("#mining-Tunnels").removeClass("list-industry-active");
+        $("#mining-Construction").addClass("list-industry-active");
+        $("#mining-Mining").removeClass("list-industry-active");
+    });
+    
+
+
+
+
+    $("#orders").click(function(){
+        $("#section-orders").show();
+        $("#section-account-details").hide();
+        $("#section-payment-methods").hide();
+        $("#sections-addresses").hide();
+        $("#sections-downloads").hide();
+
+        $("#orders").addClass("section-acount-details-active");
+        $("#account-details").removeClass("section-acount-details-active");
+        $("#payment-methods").removeClass("section-acount-details-active");
+        $("#addresses").removeClass("section-acount-details-active");
+        $("#downloads").removeClass("section-acount-details-active");
+    });
+
+    $("#account-details").click(function(){
+        $("#section-orders").hide();
+        $("#section-account-details").show();
+        $("#section-payment-methods").hide();
+        $("#sections-addresses").hide();
+        $("#sections-downloads").hide();
+
+        $("#orders").removeClass("section-acount-details-active");
+        $("#account-details").addClass("section-acount-details-active");
+        $("#payment-methods").removeClass("section-acount-details-active");
+        $("#addresses").removeClass("section-acount-details-active");
+        $("#downloads").removeClass("section-acount-details-active");
+    });
+
+    $("#payment-methods").click(function(){
+        $("#section-orders").hide();
+        $("#section-account-details").hide();
+        $("#section-payment-methods").show();
+        $("#sections-addresses").hide();
+        $("#sections-downloads").hide();
+
+        $("#orders").removeClass("section-acount-details-active");
+        $("#account-details").removeClass("section-acount-details-active");
+        $("#payment-methods").addClass("section-acount-details-active");
+        $("#addresses").removeClass("section-acount-details-active");
+        $("#downloads").removeClass("section-acount-details-active");
+    });
+
+    $("#addresses").click(function(){
+        $("#section-orders").hide();
+        $("#section-account-details").hide();
+        $("#section-payment-methods").hide();
+        $("#sections-addresses").show();
+        $("#sections-downloads").hide();
+
+        $("#orders").removeClass("section-acount-details-active");
+        $("#account-details").removeClass("section-acount-details-active");
+        $("#payment-methods").removeClass("section-acount-details-active");
+        $("#addresses").addClass("section-acount-details-active");
+        $("#downloads").removeClass("section-acount-details-active");
+    });
+
+    $("#downloads").click(function(){
+        $("#section-orders").hide();
+        $("#section-account-details").hide();
+        $("#section-payment-methods").hide();
+        $("#sections-addresses").hide();
+        $("#sections-downloads").show();
+
+        $("#orders").removeClass("section-acount-details-active");
+        $("#account-details").removeClass("section-acount-details-active");
+        $("#payment-methods").removeClass("section-acount-details-active");
+        $("#addresses").removeClass("section-acount-details-active");
+        $("#downloads").addClass("section-acount-details-active");
+    });
+
+    $("#click-to-open").click(function(){
+        $("#section-header-newsletter-open").toggle();
+        $(".arrow-hw-fix-nw").toggleClass("trans-180");
+    });
+
+    $("#to-open").click(function(){
+        $("#to-open").hide();
+        $("#to-close").show();
+        $("#mb-menu-block").show();
+        $("#mb-block-products-open").hide();
+    });
+    $("#to-close").click(function(){
+        $("#to-open").show();
+        $("#to-close").hide();
+        $("#mb-menu-block").hide();
+        $("#mb-block-products-open").hide();
+    });
+
+    $("#mb-block-products").click(function(){
+        $("#mb-block-products-open").toggle();
+        $("#mb-block-products").toggleClass("when-to-open");
+        
+    });
+
+    $("#open-more-detail").hide();
+
+    $("#open-more").click(function(){
+        $("#open-more-detail").show();
+        $("#open-more").hide();
+    });
+
+    $("#close-more").click(function(){
+        $("#open-more").show();
+        $("#open-more-detail").hide();
+    });
+
+    $("#toggle-contact-inflo-more").hide();
+
+    $("#toggle-contact-inflo").click(function(){
+        $("#toggle-contact-inflo-more").toggle();
+        $("#toggle-contact-inflo").toggleClass("when-to-open-spn");
+        
+    });
+
+    $("#toggle-contact-inflo-more-b").hide();
+
+    $("#toggle-contact-inflo-b").click(function(){
+        $("#toggle-contact-inflo-more-b").toggle();
+        $("#toggle-contact-inflo-b").toggleClass("when-to-open-spn");
+        
+    });
+
+    // The Indusries we cover js
+
+    $("#mining-22646").click(function(){
+        $("#detail-Renewable").show();
+        $("#detail-Offshore").hide();
+        $("#detail-Construction").hide();
+        $("#detail-Steel").hide();
+        $("#detail-Mining").hide();
+        $("#detail-Tunnelling").hide();
+
+        $("#mining-22646").addClass("list-industry-active"); //for detail-Renewable
+        $("#mining-22591").removeClass("list-industry-active"); // for detail-Offshore
+        $("#mining-20440").removeClass("list-industry-active"); // for detail-Construction
+        $("#mining-19959").removeClass("list-industry-active"); // for detail-Steel
+        $("#mining-19956").removeClass("list-industry-active"); // for detail-Mining
+        $("#mining-15600").removeClass("list-industry-active"); // for detail-Tunnelling
+
+    });
+    $("#mining-22591").click(function(){
+        $("#detail-Renewable").hide();
+        $("#detail-Offshore").show();
+        $("#detail-Construction").hide();
+        $("#detail-Steel").hide();
+        $("#detail-Mining").hide();
+        $("#detail-Tunnelling").hide();
+
+        $("#mining-22646").removeClass("list-industry-active"); //for detail-Renewable
+        $("#mining-22591").addClass("list-industry-active"); // for detail-Offshore
+        $("#mining-20440").removeClass("list-industry-active"); // for detail-Construction
+        $("#mining-19959").removeClass("list-industry-active"); // for detail-Steel
+        $("#mining-19956").removeClass("list-industry-active"); // for detail-Mining
+        $("#mining-15600").removeClass("list-industry-active"); // for detail-Tunnelling
+
+    });
+    $("#mining-20440").click(function(){
+        $("#detail-Renewable").hide();
+        $("#detail-Offshore").hide();
+        $("#detail-Construction").show();
+        $("#detail-Steel").hide();
+        $("#detail-Mining").hide();
+        $("#detail-Tunnelling").hide();
+
+        $("#mining-22646").removeClass("list-industry-active"); //for detail-Renewable
+        $("#mining-22591").removeClass("list-industry-active"); // for detail-Offshore
+        $("#mining-20440").addClass("list-industry-active"); // for detail-Construction
+        $("#mining-19959").removeClass("list-industry-active"); // for detail-Steel
+        $("#mining-19956").removeClass("list-industry-active"); // for detail-Mining
+        $("#mining-15600").removeClass("list-industry-active"); // for detail-Tunnelling
+
+    });
+    $("#mining-19959").click(function(){
+        $("#detail-Renewable").hide();
+        $("#detail-Offshore").hide();
+        $("#detail-Construction").hide();
+        $("#detail-Steel").show();
+        $("#detail-Mining").hide();
+        $("#detail-Tunnelling").hide();
+
+        $("#mining-22646").removeClass("list-industry-active"); //for detail-Renewable
+        $("#mining-22591").removeClass("list-industry-active"); // for detail-Offshore
+        $("#mining-20440").removeClass("list-industry-active"); // for detail-Construction
+        $("#mining-19959").addClass("list-industry-active"); // for detail-Steel
+        $("#mining-19956").removeClass("list-industry-active"); // for detail-Mining
+        $("#mining-15600").removeClass("list-industry-active"); // for detail-Tunnelling
+
+    });
+    $("#mining-19956").click(function(){
+        $("#detail-Renewable").hide();
+        $("#detail-Offshore").hide();
+        $("#detail-Construction").hide();
+        $("#detail-Steel").hide();
+        $("#detail-Mining").show();
+        $("#detail-Tunnelling").hide();
+
+        $("#mining-22646").removeClass("list-industry-active"); //for detail-Renewable
+        $("#mining-22591").removeClass("list-industry-active"); // for detail-Offshore
+        $("#mining-20440").removeClass("list-industry-active"); // for detail-Construction
+        $("#mining-19959").removeClass("list-industry-active"); // for detail-Steel
+        $("#mining-19956").addClass("list-industry-active"); // for detail-Mining
+        $("#mining-15600").removeClass("list-industry-active"); // for detail-Tunnelling
+
+    });
+    $("#mining-15600").click(function(){
+        $("#detail-Renewable").hid();
+        $("#detail-Offshore").hide();
+        $("#detail-Construction").hide();
+        $("#detail-Steel").hide();
+        $("#detail-Mining").hide();
+        $("#detail-Tunnelling").show();
+
+        $("#mining-22646").removeClass("list-industry-active"); //for detail-Renewable
+        $("#mining-22591").removeClass("list-industry-active"); // for detail-Offshore
+        $("#mining-20440").removeClass("list-industry-active"); // for detail-Construction
+        $("#mining-19959").removeClass("list-industry-active"); // for detail-Steel
+        $("#mining-19956").removeClass("list-industry-active"); // for detail-Mining
+        $("#mining-15600").addClass("list-industry-active"); // for detail-Tunnelling
+
+    });
+
+});

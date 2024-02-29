@@ -1,0 +1,26 @@
+define("/Assets/enp/2022/js/module/e-module-202210121324.js", function (require, factory) {
+
+
+    if ($('.e-module-202210121324').length > 0) {
+        $('.e-module-202210121324').each(function () {
+            var _this = $(this);
+            var winw = $(window).width();
+            var maxH = 0;
+            if(winw<1200 && winw > 750){
+                _this.find(".r-box .r-con").each(function () {
+                    var itemH = $(this).height();
+                    if (itemH > maxH) {
+                        maxH = itemH;
+                    }
+                });
+                _this.find(".r-box .r-con").height(maxH);
+            }
+           
+
+        })
+    }
+
+
+
+
+});

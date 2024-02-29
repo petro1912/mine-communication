@@ -1,0 +1,664 @@
+
+/*smoothproducts.min.js*/
+!function(a){a.fn.extend({smoothproducts:function(){function b(){a(".sp-selected").removeClass("sp-selected"),a(".sp-lightbox").fadeOut(function(){a(this).remove()})}function c(a){return a.match(/url\([\"\']{0,1}(.+)[\"\']{0,1}\)+/i)[1]}a(".sp-loading").hide(),a(".sp-wrap").each(function(){a(this).addClass("sp-touch");var b=a("a",this).length;if(b>1){var c,d,e=a("a.sp-default",this)[0]?!0:!1;a(this).append('<div class="sp-large"></div><div class="sp-thumbs sp-tb-active"></div>'),a("a",this).each(function(b){var f=a("img",this).attr("src"),g=a(this).attr("href"),h="";(0===b&&!e||a(this).hasClass("sp-default"))&&(h=' /*class="sp-current*/"',c=g,d=a("img",this)[0].src),a(this).parents(".sp-wrap").find(".sp-thumbs").append('<a href="'+g+'" style="background-image:url('+f+')"'+h+"></a>"),a(this).remove()}),a(".sp-large",this).append('<a href="'+c+'" class="sp-current-big"><img src="'+d+'" alt="" /></a>'),a(".sp-wrap").css("display","inline-block")}else a(this).append('<div class="sp-large"></div>'),a("a",this).appendTo(a(".sp-large",this)).addClass(".sp-current-big"),a(".sp-wrap").css("display","inline-block")}),a(document.body).on("click",".sp-thumbs",function(a){a.preventDefault()}),a(document.body).on("mouseover",function(b){a(".sp-wrap").removeClass("sp-touch").addClass("sp-non-touch"),b.preventDefault()}),a(document.body).on("touchstart",function(){a(".sp-wrap").removeClass("sp-non-touch").addClass("sp-touch")}),a(document.body).on("click",".sp-tb-active a",function(b){b.preventDefault(),a(this).parent().find(".sp-current").removeClass(),a(this).addClass("sp-current"),a(this).parents(".sp-wrap").find(".sp-thumbs").removeClass("sp-tb-active"),a(this).parents(".sp-wrap").find(".sp-zoom").remove();var d=a(this).parents(".sp-wrap").find(".sp-large").height(),e=a(this).parents(".sp-wrap").find(".sp-large").width();a(this).parents(".sp-wrap").find(".sp-large").css({overflow:"hidden",height:d+"px",width:e+"px"}),a(this).addClass("sp-current").parents(".sp-wrap").find(".sp-large a").remove();var f=a(this).parent().find(".sp-current").attr("href"),g=c(a(this).parent().find(".sp-current").css("backgroundImage"));a(this).parents(".sp-wrap").find(".sp-large").html('<a href="'+f+'" class="sp-current-big"><img src="'+g+'"/></a>'),a(this).parents(".sp-wrap").find(".sp-large").hide().fadeIn(250,function(){var b=a(this).parents(".sp-wrap").find(".sp-large img").height();a(this).parents(".sp-wrap").find(".sp-large").animate({height:b},"fast",function(){a(".sp-large").css({height:"auto",width:"auto"})}),a(this).parents(".sp-wrap").find(".sp-thumbs").addClass("sp-tb-active")})}),a(document.body).on("mouseenter",".sp-non-touch .sp-large",function(b){var c=a("a",this).attr("href");a(this).append('<div class="sp-zoom"><img src="'+c+'"/></div>'),a(this).find(".sp-zoom").fadeIn(250),b.preventDefault()}),a(document.body).on("mouseleave",".sp-non-touch .sp-large",function(b){a(this).find(".sp-zoom").fadeOut(250,function(){a(this).remove()}),b.preventDefault()}),a(document.body).on("click",".sp-non-touch .sp-zoom",function(b){var c=a(this).html(),d=a(this).parents(".sp-wrap").find(".sp-thumbs a").length,e=a(this).parents(".sp-wrap").find(".sp-thumbs .sp-current").index()+1;a(this).parents(".sp-wrap").addClass("sp-selected"),a("body").append("<div class='sp-lightbox' data-currenteq='"+e+"'>"+c+"</div>"),d>1&&(a(".sp-lightbox").append("<a href='#' id='sp-prev'></a><a href='#' id='sp-next'></a>"),1==e?a("#sp-prev").css("opacity",".1"):e==d&&a("#sp-next").css("opacity",".1")),a(".sp-lightbox").fadeIn(),b.preventDefault()}),a(document.body).on("click",".sp-large a",function(b){var c=a(this).attr("href"),d=a(this).parents(".sp-wrap").find(".sp-thumbs a").length,e=a(this).parents(".sp-wrap").find(".sp-thumbs .sp-current").index()+1;a(this).parents(".sp-wrap").addClass("sp-selected"),a("body").append('<div class="sp-lightbox" data-currenteq="'+e+'"><img src="'+c+'"/></div>'),d>1&&(a(".sp-lightbox").append("<a href='#' id='sp-prev'></a><a href='#' id='sp-next'></a>"),1==e?a("#sp-prev").css("opacity",".1"):e==d&&a("#sp-next").css("opacity",".1")),a(".sp-lightbox").fadeIn(),b.preventDefault()}),a(document.body).on("click","#sp-next",function(b){b.stopPropagation();var d=a(".sp-lightbox").data("currenteq"),e=a(".sp-selected .sp-thumbs a").length;if(d>=e);else{var f=d+1,g=a(".sp-selected .sp-thumbs").find("a:eq("+d+")").attr("href"),h=c(a(".sp-selected .sp-thumbs").find("a:eq("+d+")").css("backgroundImage"));d==e-1&&a("#sp-next").css("opacity",".1"),a("#sp-prev").css("opacity","1"),a(".sp-selected .sp-current").removeClass(),a(".sp-selected .sp-thumbs a:eq("+d+")").addClass("sp-current"),a(".sp-selected .sp-large").empty().append("<a href="+g+'><img src="'+h+'"/></a>'),a(".sp-lightbox img").fadeOut(250,function(){a(this).remove(),a(".sp-lightbox").data("currenteq",f).append('<img src="'+g+'"/>'),a(".sp-lightbox img").hide().fadeIn(250)})}b.preventDefault()}),a(document.body).on("click","#sp-prev",function(b){b.stopPropagation();var d=a(".sp-lightbox").data("currenteq"),d=d-1;if(0>=d);else{1==d&&a("#sp-prev").css("opacity",".1");var e=d-1,f=a(".sp-selected .sp-thumbs").find("a:eq("+e+")").attr("href"),g=c(a(".sp-selected .sp-thumbs").find("a:eq("+e+")").css("backgroundImage"));a("#sp-next").css("opacity","1"),a(".sp-selected .sp-current").removeClass(),a(".sp-selected .sp-thumbs a:eq("+e+")").addClass("sp-current"),a(".sp-selected .sp-large").empty().append("<a href="+f+'><img src="'+g+'"/></a>'),a(".sp-lightbox img").fadeOut(250,function(){a(this).remove(),a(".sp-lightbox").data("currenteq",d).append('<img src="'+f+'"/>'),a(".sp-lightbox img").hide().fadeIn(250)})}b.preventDefault()}),a(document.body).on("click",".sp-lightbox",function(){b()}),a(document).keydown(function(a){return 27==a.keyCode?(b(),!1):void 0}),a(".sp-large").mousemove(function(b){var c=a(this).width(),d=a(this).height(),e=a(this).find(".sp-zoom").width(),f=a(this).find(".sp-zoom").height(),g=a(this).parent().offset(),h=b.pageX-g.left,i=b.pageY-g.top,j=Math.floor(h*(c-e)/c),k=Math.floor(i*(d-f)/d);a(this).find(".sp-zoom").css({left:j,top:k})})}})}(jQuery);
+
+
+/* 
+honor certificate
+baguetteBox.min.js */
+!function(t,e){"use strict";"function"==typeof define&&define.amd?define(e):"object"==typeof exports?module.exports=e():t.baguetteBox=e()}(this,function(){"use strict";function t(t,n){M.transforms=w(),M.svg=k(),i(),o(t),e(t,n)}function e(t,e){var n=document.querySelectorAll(t),o={galleries:[],nodeList:n};U[t]=o,[].forEach.call(n,function(t){e&&e.filter&&(V=e.filter);var n=[];if(n="A"===t.tagName?[t]:t.getElementsByTagName("a"),n=[].filter.call(n,function(t){return V.test(t.href)}),0!==n.length){var i=[];[].forEach.call(n,function(t,n){var o=function(t){t.preventDefault?t.preventDefault():t.returnValue=!1,u(i,e),c(n)},a={eventHandler:o,imageElement:t};E(t,"click",o),i.push(a)}),o.galleries.push(i)}})}function n(){for(var t in U)U.hasOwnProperty(t)&&o(t)}function o(t){if(U.hasOwnProperty(t)){var e=U[t].galleries;[].forEach.call(e,function(t){[].forEach.call(t,function(t){B(t.imageElement,"click",t.eventHandler)}),R===t&&(R=[])}),delete U[t]}}function i(){if(S=T("baguetteBox-overlay"))return P=T("baguetteBox-slider"),F=T("previous-button"),H=T("next-button"),void(L=T("close-button"));S=N("div"),S.setAttribute("role","dialog"),S.id="baguetteBox-overlay",document.getElementsByTagName("body")[0].appendChild(S),P=N("div"),P.id="baguetteBox-slider",S.appendChild(P),F=N("button"),F.setAttribute("type","button"),F.id="previous-button",F.setAttribute("aria-label","Previous"),F.innerHTML=M.svg?I:"&lt;",S.appendChild(F),H=N("button"),H.setAttribute("type","button"),H.id="next-button",H.setAttribute("aria-label","Next"),H.innerHTML=M.svg?Y:"&gt;",S.appendChild(H),L=N("button"),L.setAttribute("type","button"),L.id="close-button",L.setAttribute("aria-label","Close"),L.innerHTML=M.svg?q:"&times;",S.appendChild(L),F.className=H.className=L.className="baguetteBox-button",r()}function a(t){switch(t.keyCode){case 37:v();break;case 39:h();break;case 27:m()}}function r(){E(S,"click",J),E(F,"click",K),E(H,"click",Q),E(L,"click",Z),E(S,"touchstart",$),E(S,"touchmove",_),E(S,"touchend",tt),E(document,"focus",et,!0)}function l(){B(S,"click",J),B(F,"click",K),B(H,"click",Q),B(L,"click",Z),B(S,"touchstart",$),B(S,"touchmove",_),B(S,"touchend",tt),B(document,"focus",et,!0)}function u(t,e){if(R!==t){for(R=t,s(e);P.firstChild;)P.removeChild(P.firstChild);W.length=0;for(var n,o=[],i=[],a=0;a<t.length;a++)n=N("div"),n.className="full-image",n.id="baguette-img-"+a,W.push(n),o.push("baguetteBox-figure-"+a),i.push("baguetteBox-figcaption-"+a),P.appendChild(W[a]);S.setAttribute("aria-labelledby",o.join(" ")),S.setAttribute("aria-describedby",i.join(" "))}}function s(t){t||(t={});for(var e in X)j[e]=X[e],void 0!==t[e]&&(j[e]=t[e]);P.style.transition=P.style.webkitTransition="fadeIn"===j.animation?"opacity .4s ease":"slideIn"===j.animation?"":"none","auto"===j.buttons&&("ontouchstart"in window||1===R.length)&&(j.buttons=!1),F.style.display=H.style.display=j.buttons?"":"none";try{S.style.backgroundColor=j.overlayBackgroundColor}catch(t){}}function c(t){j.noScrollbars&&(document.documentElement.style.overflowY="hidden",document.body.style.overflowY="scroll"),"block"!==S.style.display&&(E(document,"keydown",a),z=t,D={count:0,startX:null,startY:null},p(z,function(){x(z),C(z)}),y(),S.style.display="block",j.fullScreen&&f(),setTimeout(function(){S.className="visible",j.afterShow&&j.afterShow()},50),j.onChange&&j.onChange(z,W.length),G=document.activeElement,d())}function d(){j.buttons?F.focus():L.focus()}function f(){S.requestFullscreen?S.requestFullscreen():S.webkitRequestFullscreen?S.webkitRequestFullscreen():S.mozRequestFullScreen&&S.mozRequestFullScreen()}function g(){document.exitFullscreen?document.exitFullscreen():document.mozCancelFullScreen?document.mozCancelFullScreen():document.webkitExitFullscreen&&document.webkitExitFullscreen()}function m(){j.noScrollbars&&(document.documentElement.style.overflowY="auto",document.body.style.overflowY="auto"),"none"!==S.style.display&&(B(document,"keydown",a),S.className="",setTimeout(function(){S.style.display="none",g(),j.afterHide&&j.afterHide()},500),G.focus())}function p(t,e){var n=W[t],o=R[t];if(void 0!==n&&void 0!==o){if(n.getElementsByTagName("img")[0])return void(e&&e());var i=o.imageElement,a=i.getElementsByTagName("img")[0],r="function"==typeof j.captions?j.captions.call(R,i):i.getAttribute("data-caption")||i.title,l=b(i),u=N("figure");if(u.id="baguetteBox-figure-"+t,u.innerHTML='<div class="baguetteBox-spinner"><div class="baguetteBox-double-bounce1"></div><div class="baguetteBox-double-bounce2"></div></div>',j.captions&&r){var s=N("figcaption");s.id="baguetteBox-figcaption-"+t,s.innerHTML=r,u.appendChild(s)}n.appendChild(u);var c=N("img");c.onload=function(){var n=document.querySelector("#baguette-img-"+t+" .baguetteBox-spinner");u.removeChild(n),!j.async&&e&&e()},c.setAttribute("src",l),c.alt=a?a.alt||"":"",j.titleTag&&r&&(c.title=r),u.appendChild(c),j.async&&e&&e()}}function b(t){var e=t.href;if(t.dataset){var n=[];for(var o in t.dataset)"at-"!==o.substring(0,3)||isNaN(o.substring(3))||(n[o.replace("at-","")]=t.dataset[o]);for(var i=Object.keys(n).sort(function(t,e){return parseInt(t,10)<parseInt(e,10)?-1:1}),a=window.innerWidth*window.devicePixelRatio,r=0;r<i.length-1&&i[r]<a;)r++;e=n[i[r]]||e}return e}function h(){var t;return z<=W.length-2?(z++,y(),x(z),t=!0):j.animation&&(P.className="bounce-from-right",setTimeout(function(){P.className=""},400),t=!1),j.onChange&&j.onChange(z,W.length),t}function v(){var t;return z>=1?(z--,y(),C(z),t=!0):j.animation&&(P.className="bounce-from-left",setTimeout(function(){P.className=""},400),t=!1),j.onChange&&j.onChange(z,W.length),t}function y(){var t=100*-z+"%";"fadeIn"===j.animation?(P.style.opacity=0,setTimeout(function(){M.transforms?P.style.transform=P.style.webkitTransform="translate3d("+t+",0,0)":P.style.left=t,P.style.opacity=1},400)):M.transforms?P.style.transform=P.style.webkitTransform="translate3d("+t+",0,0)":P.style.left=t}function w(){var t=N("div");return void 0!==t.style.perspective||void 0!==t.style.webkitPerspective}function k(){var t=N("div");return t.innerHTML="<svg/>","http://www.w3.org/2000/svg"===(t.firstChild&&t.firstChild.namespaceURI)}function x(t){t-z>=j.preload||p(t+1,function(){x(t+1)})}function C(t){z-t>=j.preload||p(t-1,function(){C(t-1)})}function E(t,e,n,o){t.addEventListener?t.addEventListener(e,n,o):t.attachEvent("on"+e,function(t){t=t||window.event,t.target=t.target||t.srcElement,n(t)})}function B(t,e,n,o){t.removeEventListener?t.removeEventListener(e,n,o):t.detachEvent("on"+e,n)}function T(t){return document.getElementById(t)}function N(t){return document.createElement(t)}function A(){l(),n(),B(document,"keydown",a),document.getElementsByTagName("body")[0].removeChild(document.getElementById("baguetteBox-overlay")),U={},R=[],z=0}var S,P,F,H,L,I='<svg width="44" height="60"><polyline points="30 10 10 30 30 50" stroke="rgba(255,255,255,0.5)" stroke-width="4"stroke-linecap="butt" fill="none" stroke-linejoin="round"/></svg>',Y='<svg width="44" height="60"><polyline points="14 10 34 30 14 50" stroke="rgba(255,255,255,0.5)" stroke-width="4"stroke-linecap="butt" fill="none" stroke-linejoin="round"/></svg>',q='<svg width="30" height="30"><g stroke="rgb(160,160,160)" stroke-width="4"><line x1="5" y1="5" x2="25" y2="25"/><line x1="5" y1="25" x2="25" y2="5"/></g></svg>',j={},X={captions:!0,fullScreen:!1,noScrollbars:!1,titleTag:!1,buttons:"auto",async:!1,preload:2,animation:"slideIn",afterShow:null,afterHide:null,onChange:null,overlayBackgroundColor:"rgba(0,0,0,.8)"},M={},R=[],z=0,D={},O=!1,V=/.+\.(gif|jpe?g|png|webp)/i,U={},W=[],G=null,J=function(t){t.target.id.indexOf("baguette-img")!==-1&&m()},K=function(t){t.stopPropagation?t.stopPropagation():t.cancelBubble=!0,v()},Q=function(t){t.stopPropagation?t.stopPropagation():t.cancelBubble=!0,h()},Z=function(t){t.stopPropagation?t.stopPropagation():t.cancelBubble=!0,m()},$=function(t){D.count++,D.count>1&&(D.multitouch=!0),D.startX=t.changedTouches[0].pageX,D.startY=t.changedTouches[0].pageY},_=function(t){if(!O&&!D.multitouch){t.preventDefault?t.preventDefault():t.returnValue=!1;var e=t.touches[0]||t.changedTouches[0];e.pageX-D.startX>40?(O=!0,v()):e.pageX-D.startX<-40?(O=!0,h()):D.startY-e.pageY>100&&m()}},tt=function(){D.count--,D.count<=0&&(D.multitouch=!1),O=!1},et=function(t){"block"===S.style.display&&S.contains&&!S.contains(t.target)&&(t.stopPropagation(),d())};return[].forEach||(Array.prototype.forEach=function(t,e){for(var n=0;n<this.length;n++)t.call(e,this[n],n,this)}),[].filter||(Array.prototype.filter=function(t,e,n,o,i){for(n=this,o=[],i=0;i<n.length;i++)t.call(e,n[i],i,n)&&o.push(n[i]);return o}),{run:t,destroy:A,showNext:h,showPrevious:v}});
+
+
+/*left fixed*/
+(function($) {
+	//descirption:scroll and fixed some div
+	$.fn.scrollFix = function(options) {
+		return this.each(function() {
+
+			var opts = $.extend({}, $.fn.scrollFix.defaultOptions, options);
+			var obj = $(this),
+				base = this,
+				selfTop = 0,
+				selfLeft = 0,
+				toTop = 0,
+				parentOffsetLeft = 0,
+				parentOffsetTop = 0,
+				outerHeight,
+				outerWidth,
+				objWidth = 0,
+				placeholder = jQuery('<div>'), //创建一个jquery对象
+				optsTop = opts.distanceTop, //定义到顶部的高度
+				endfix = 0; //开始停止固定的位置
+
+			var originalPosition;
+			var originalOffsetTop;
+			var originalZIndex;
+			var lastOffsetLeft = -1;
+			var isUnfixed = true;
+			//如果没有找到节点，不进行处理
+			if (obj.length <= 0) {
+				return;
+			}
+			if (lastOffsetLeft == -1) {
+				originalZIndex = obj.css('z-index');
+				position = obj.css('position');
+				originalPosition = obj.css('position');
+
+				originalOffsetTop = obj.css('top');
+			}
+
+			var zIndex = obj.css('zIndex');
+			if (opts.zIndex != 0) {
+				zIndex = opts.zIndex;
+			}
+			//获取相对定位或者绝对定位的父类
+			var parents = obj.parent();
+			var Position = parents.css('position');
+			while (!/^relative|absolute$/i.test(Position)) { //检测浮动元素的父类元素定位为'relative'或者'absolute',是的话退出，否则的话，执行循环，继续寻找它的父类
+				parents = parents.parent();
+				Position = parents.css('position');
+				if (/^body|html$/i.test(parents[0].tagName)) break; //假如父类元素的标签为body或者HTML，说明没有找到父类为以上的定位，退出循环
+			}
+
+			var ie6 = !-[1, ] && !window.XMLHttpRequest; //兼容IE6
+			var resizeWindow = false;
+
+			function resetScroll() {
+				setUnfixed();
+				selfTop = obj.offset().top; //对象距离顶部高度
+				selfLeft = obj.offset().left; //对象距离左边宽度
+				outerHeight = obj.outerHeight(); //对象高度
+				outerHeight = parseFloat(outerHeight) + parseFloat(obj.css('marginBottom').replace(/auto/, 0));
+				outerWidth = obj.outerWidth(); //对象外宽度
+				objWidth = obj.width();
+				var documentHeight = $(document).height(); //文档高度
+				var startTop = $(opts.startTop), //开始浮动固定对象
+					startBottom = $(opts.startBottom),
+					toBottom, //停止滚动位置距离底部的高度
+					ScrollHeight; //对象滚动的高度
+
+				//计算父类偏移值
+				if (/^body|html$/i.test(parents[0].tagName)) { //当父类元素非body或者HTML时，说明找到了一个父类为'relative'或者'absolute'的元素，得出它的偏移高度
+					parentOffsetTop = 0, parentOffsetLeft = 0;
+				} else {
+					parentOffsetLeft = parents.offset().left, parentOffsetTop = parents.offset().top;
+				}
+
+				// 计算父节点的上边到顶部距离
+				// 如果 body 有 top 属性, 消除这些位移
+				var bodyToTop = parseInt(jQuery('body').css('top'), 10);
+				if (!isNaN(bodyToTop)) {
+					optsTop += bodyToTop;
+				}
+				//计算停在底部的距离
+				if (!isNaN(opts.endPos)) {
+					toBottom = opts.endPos;
+				} else {
+					toBottom = parseFloat(documentHeight - $(opts.endPos).offset().top);
+				}
+				//计算需要滚动的高度以及停止滚动的高度
+				ScrollHeight = parseFloat(documentHeight - toBottom - optsTop), endfix = parseFloat(ScrollHeight - outerHeight);
+				//计算顶部的距离值
+				if (startTop[0]) {
+					var startTopOffset = startTop.offset(),
+						startTopPos = startTopOffset.top;
+					selfTop = startTopPos;
+				}
+				if (startBottom[0]) {
+					var startBottomOffset = startBottom.offset(),
+						startBottomPos = startBottomOffset.top,
+						startBottomHeight = startBottom.outerHeight();
+					selfTop = parseFloat(startBottomPos + startBottomHeight);
+				}
+
+				toTop = selfTop - optsTop;
+				toTop = (toTop > 0) ? toTop : 0;
+
+				var selfBottom = documentHeight - selfTop - outerHeight;
+				//如果滚动停在底部的值不为0，并且自身到底部的高度小于上面这个值，不执行浮动固定
+				if ((toBottom != 0) && (selfBottom <= toBottom)) {
+					return;
+				}
+
+			}
+			function setUnfixed() {
+				if (!isUnfixed) {
+					lastOffsetLeft = -1;
+					placeholder.css("display", "none");
+					obj.css({
+						'z-index': originalZIndex,
+						'width': '',
+						'position': originalPosition,
+						'left': '',
+						'top': originalOffsetTop,
+						'margin-left': ''
+					});
+					obj.removeClass('scrollfixed');
+					isUnfixed = true;
+				}
+			}
+
+			function onScroll() {
+				lastOffsetLeft = 1;
+				var ScrollTop = $(window).scrollTop();
+				if (opts.bottom != -1) {
+					ScrollTop = ScrollTop + $(window).height() - outerHeight - opts.bottom;
+				}
+				if (ScrollTop > toTop && (ScrollTop < endfix)) {
+					if (ie6) { //IE6则使用这个样式
+						obj.addClass(opts.baseClassName).css({
+							"z-index": zIndex,
+							"position": "absolute",
+							"top": opts.bottom == -1 ? ScrollTop + optsTop - parentOffsetTop : ScrollTop - parentOffsetTop,
+							"bottom": 'auto',
+							"left": selfLeft - parentOffsetLeft,
+							'width': objWidth
+						})
+					} else {
+						obj.addClass(opts.baseClassName).css({
+							"z-index": zIndex,
+							"position": "fixed",
+							"top": opts.bottom == -1 ? optsTop : '',
+							"bottom": opts.bottom == -1 ? '' : opts.bottom,
+							"left": selfLeft,
+							"width": objWidth
+						});
+					}
+					placeholder.css({
+						'height': outerHeight,
+						'width': outerWidth,
+						'display': 'block'
+					}).insertBefore(obj);
+				} else if (ScrollTop >= endfix) {
+					obj.addClass(opts.baseClassName).css({
+						"z-index": zIndex,
+						"position": "absolute",
+						"top": endfix - parentOffsetTop + optsTop,
+						'bottom': '',
+						"left": selfLeft - parentOffsetLeft,
+						"width": objWidth
+					});
+					placeholder.css({
+						'height': outerHeight,
+						'width': outerWidth,
+						'display': 'block'
+					}).insertBefore(obj)
+				} else {
+					obj.removeClass(opts.baseClassName).css({
+						"z-index": originalZIndex,
+						"position": "static",
+						"top": "",
+						"bottom": "",
+						"left": ""
+					});
+					placeholder.remove()
+				}
+			}
+			var Timer = 0;
+			// if (isUnfixed) {
+			resetScroll();
+			// }
+			$(window).on("scroll", function() {
+				if (Timer) {
+					clearTimeout(Timer);
+				}
+				Timer = setTimeout(onScroll, 0);
+			});
+			// 当发现调整屏幕大小时，重新执行代码
+			$(window).on("resize", function() {
+				if (Timer) {
+					clearTimeout(Timer);
+				}
+				Timer = setTimeout(function() {
+					isUnfixed = false;
+					resetScroll();
+					onScroll();
+				}, 0);
+			});
+		})
+	}
+	$.fn.scrollFix.defaultOptions = {
+		startTop: null, //滑到这个位置顶部时开始浮动，默认为空
+		startBottom: null, //滑到这个位置末端开始浮动，默认为空
+		distanceTop: 0, //固定在顶部的高度
+		endPos: 0, //停靠在底部的位置，可以为jquery对象
+		bottom: -1, //底部位置
+		zIndex: 0, //z-index值
+		baseClassName: 'scrollfixed' //开始固定时添加的类
+	};
+})(jQuery);
+
+
+/*!
+ * Responsive jQuery Parallax plugin
+ * Original author: @tomsarduy
+ * Licensed under the MIT license
+ */
+
+// the semi-colon before the function invocation is a safety
+// net against concatenated scripts and/or other plugins
+// that are not closed properly.
+;(function ( $, window, document, undefined ) {
+
+	// undefined is used here as the undefined global
+	// variable in ECMAScript 3 and is mutable (i.e. it can
+	// be changed by someone else). undefined isn't really
+	// being passed in so we can ensure that its value is
+	// truly undefined. In ES5, undefined can no longer be
+	// modified.
+
+	// window and document are passed through as local
+	// variables rather than as globals, because this (slightly)
+	// quickens the resolution process and can be more
+	// efficiently minified (especially when both are
+	// regularly referenced in your plugin).
+
+	// Create the defaults once
+	'use strict';
+
+	var pluginName = "parallux",
+		$window = $(window),
+		interval,
+		bgset = false,
+		animate3d=false,
+		is_mobile = false,
+		defaults   = {
+			fullHeight: true,
+			onMobile: 'fixed', //can be 'scroll' or 'parallax'
+			onImageLoad: 'fadeIn'
+		};
+
+	window.mobilecheck = function() {
+	  var check = false;
+	  (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4)))check = true})(navigator.userAgent||navigator.vendor||window.opera);
+	  return check;
+	};
+
+	//window.requestAnimationFrame Polyfill for Old Browsers
+	function animationFramePolyfill() {
+		var lastTime = 0;
+		var vendors = ['ms', 'moz', 'webkit', 'o'];
+
+		for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+				window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+				window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+		}
+
+		if (!window.requestAnimationFrame){
+			window.requestAnimationFrame = function(callback) {
+				var currTime = new Date().getTime();
+				var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+				var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+					timeToCall);
+				lastTime = currTime + timeToCall;
+				return id;
+			};
+		}
+
+		if (!window.cancelAnimationFrame){
+			window.cancelAnimationFrame = function(id) {
+					clearTimeout(id);
+			};
+		}
+	}
+	animationFramePolyfill();
+
+
+	//Check for translate3d support
+	function support3d() {
+
+		//If modernizr is initialized, we don't need to use our test
+		if (typeof Modernizr === 'object' && Modernizr.csstransforms3d) {
+			return true;
+		}
+
+		if (!window.getComputedStyle) {
+			return false;
+		}
+
+		var el = document.createElement('p'),
+			has3d,
+			transforms = {
+				'webkitTransform':'-webkit-transform',
+				'OTransform':'-o-transform',
+				'msTransform':'-ms-transform',
+				'MozTransform':'-moz-transform',
+				'transform':'transform'
+			};
+
+		// Add it to the body to get the computed style.
+		document.body.insertBefore(el, null);
+
+		for (var t in transforms) {
+			if (el.style[t] !== undefined) {
+				el.style[t] = "translate3d(1px,1px,1px)";
+				has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+			}
+		}
+
+		document.body.removeChild(el);
+
+		return (has3d !== undefined && has3d.length > 0 && has3d !== "none");
+	}
+	animate3d = support3d();
+
+	/**
+	 * detect IE
+	 * returns version of IE or false, if browser is not Internet Explorer
+	 */
+	function detectIE() {
+		var ua = window.navigator.userAgent;
+
+		var msie = ua.indexOf('MSIE ');
+		if (msie > 0) {
+			// IE 10 or older => return version number
+			return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+		}
+
+		var trident = ua.indexOf('Trident/');
+		if (trident > 0) {
+			// IE 11 => return version number
+			var rv = ua.indexOf('rv:');
+			return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+		}
+
+		var edge = ua.indexOf('Edge/');
+		if (edge > 0) {
+		   // IE 12 (aka Edge) => return version number
+		   return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+		}
+
+		// other browser
+		return false;
+	}
+
+	// The actual plugin constructor
+	function Plugin( element, options ) {
+		this.element = element;
+		bgset=false;
+
+		// jQuery has an extend method that merges the
+		// contents of two or more objects, storing the
+		// result in the first object. The first object
+		// is generally empty because we don't want to alter
+		// the default options for future instances of the plugin
+		this.options = $.extend( {}, defaults, options) ;
+
+		this._defaults = defaults;
+		this._name = pluginName;
+
+		this.init(element);
+	}
+
+	Plugin.prototype = {
+
+		init: function(element) {
+
+			//If not fullHeight option is set
+			if(this.options.fullHeight===false){
+				$(element).addClass('not-full');
+			}
+
+			//Checking if device is mobile
+			is_mobile = window.mobilecheck();
+
+			//Recalculate Height of parallax items
+			this.updateHeight();
+
+			//Updating `this` context so we use it with jQuery
+			var self = this,
+				$cover = $(element).find("img.cover, video.cover");
+			self.simulateCover();
+
+			//Onload image event
+			$cover.one("load", function() {
+				self.simulateCover();
+				$(this).fadeIn();
+			});
+
+			//Firefox onload issue
+			if($cover.complete){ 
+				$cover.load(); 
+			}
+
+
+			//On ResizeOrientationChange update parallax items
+			$window.bind('orientationchange, resize', function() {
+				if(!is_mobile){
+					self.updateHeight();
+					self.simulateCover();
+					$(this).trigger('scroll');
+				}
+			});
+
+			var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+			var is_ipad = navigator.userAgent.match(/iPad/i) != null;
+
+			//Issue with Safari iPad and iPhones
+			if(!is_mobile && !is_safari){
+				//Not supporting background-attachment fixed
+				$(element).addClass('bg-fixed');
+			}
+
+			if(is_mobile || is_ipad){
+
+				$(element).css('overflow','hidden');
+				
+				//If mobile and is fixed enabled hack z-indexs and overflow hidden
+				if(this.options.onMobile === 'fixed'){
+
+					$window.scroll(function () {
+						self.updateIndex();
+					});
+					$window.scroll();
+				}
+
+				else if(this.options.onMobile === 'parallax' && animate3d){
+					var mobileRender = self.render.bind(self);
+					interval = setInterval(function () {
+						window.requestAnimationFrame(mobileRender);
+					}, 10);
+				}
+
+				else{
+					//By default this.options.onMobile = 'scroll'
+					$(element).find('.parallux-bg').css('position', 'absolute');
+				}
+			}
+
+
+
+			else{
+
+				if(animate3d){
+
+						//If is Desktop is better to throw it directly in scroll
+						$window.scroll(function () {
+							self.render();
+						});
+
+
+						//IE Fix
+						if(detectIE()) { // if IE
+
+							if(detectIE()>=11){
+								$('body').on("mousewheel", function () {
+									// remove default behavior
+									event.preventDefault(); 
+
+									//scroll without smoothing
+									var wheelDelta = event.wheelDelta;
+									var currentScrollPosition = window.pageYOffset;
+									window.scrollTo(0, currentScrollPosition - wheelDelta/4);
+								});
+								$window.scroll();
+							}
+							else{
+								$(window).off('scroll');
+								this.disableParallax();
+							}
+						}
+						else{
+							$window.scroll();
+						}
+				}
+				else{
+					this.disableParallax();  
+				}
+				
+			}
+		},
+
+		disableParallax: function(){
+			$(this.element).removeClass('bg-fixed').addClass('no-parallax');
+		},
+
+		mobileHandler: function () {
+			
+		},
+
+		//The Parallax rendering, magic happens here
+		updateIndex: function() {
+
+			// assigning the object front and back
+			var $front = $(this.element);
+
+			//offset top of the front layer
+			var $offsetTop = $front.offset().top;
+			var $winST = $window.scrollTop();
+
+
+			if(($winST+$window.height() >= $offsetTop) && $winST <= $offsetTop + $front.height()){
+				
+				$front.css('z-index', 2);
+
+			}
+			else{
+				$front.css('z-index', 1);
+			}
+		},
+
+		//Since we are using <img> tags, we may want to simulate background-size: cover
+		simulateCover: function (){
+
+			var $winH = $window.height(),
+				$winW = $window.width(),
+				$img =  $(this.element).find('img.cover, video.cover');
+
+			$img.css({
+				'width': 'auto',
+				'height': '100%',
+			});
+
+			if($img.width()<$winW){
+				$img.css({
+					'width': '100%',
+					'max-height': 'initial',
+					'height': 'auto'
+				});
+			}
+
+			$img.css({
+				'width': '100%',
+				'height': 'auto',
+			});
+
+			if($img.height()<$winH){
+				$img.css({
+					'height': $winH+'px',
+					'max-width': 'initial',
+					'width': 'auto'
+				});
+			}
+
+			var diffX = -($img.width()- $winW)/2;
+			var diffY = -($img.height()- $winH)/2;
+			$img.css('transform', 'translate('+diffX+'px,'+diffY+'px)');
+		},
+
+		//Update height of parallax sections
+		updateHeight: function () {
+			var $el = $(this.element),
+				$inner = $el.find('.parallux-inner'),
+				$rand = 1+ Math.floor(Math.random() * 3);
+
+			if(this.options.fullHeight){
+				var extra = 0;
+				if(is_mobile || Modernizr.mq('only screen and (max-width: 1024px)')){
+					extra = 70;
+				}
+				$el.height($window.height() + extra);
+				$el.find('.parallux-bg').height($window.height() + extra);
+			}
+			else{
+				$el.find('.parallux-bg').height($el.height());
+			}
+			if(!bgset){
+				if($inner.hasClass('dark')){
+					$inner.addClass('dark-'+ $rand);
+				}
+				if($inner.hasClass('light')){
+					$inner.addClass('light-'+ $rand);
+				}
+				bgset=true;
+			}
+		},
+
+		//The Parallax rendering, magic happens here
+		render: function() {
+
+			// assigning the object front and back
+			var $front = $(this.element);
+			var $back  = $front.find('.parallux-bg');
+			var $backinner = $back.find('.parallux-inner');
+
+			//offset top of the front layer
+			var $offsetTop = $front.offset().top;
+			var $scrollY = window.scrollY || window.pageYOffset || 0;
+			var $winST = $window.scrollTop();
+
+			/*
+				If user is scrolling and the windows is between one of the front parallax layers,
+				then we bring the corresponding background layer to that position and parallax is applied
+			*/
+
+			if(($winST+$window.height() >= $offsetTop) && $winST <= $offsetTop + $front.height()){
+				
+				//Calculating the speed of the parallax
+				var $diffElem = (($scrollY-$offsetTop)/1.3).toFixed(0)+ 'px';
+
+				/*
+					This is where the magic happens, applying transform3d to the background layer
+					and the container, to simulate the parallax effect
+				*/
+
+				$back.css('transform','translate3d(0,'+($offsetTop-$scrollY)+'px,0)');
+				$backinner.css('transform', 'translate3d(0,'+($diffElem)+',0)');
+
+			}
+			else{
+
+				/*
+					If the layer is not inside the windows, we set the background 
+					layer outside the viewport to get a better performance, so we 
+					only do parallax in one or two layers at the same time.
+				*/
+
+				$back.css('transform', 'translate3d(0,100%,0)');
+			}
+		}
+	};
+
+	// A really lightweight plugin wrapper around the constructor,
+	// preventing against multiple instantiations
+	$.fn[pluginName] = function ( options ) {
+		return this.each(function () {
+			if (!$.data(this, "plugin_" + pluginName)) {
+				$.data(this, "plugin_" + pluginName,
+				new Plugin( this, options ));
+			}
+		});
+	};
+
+})( jQuery, window, document );
+

@@ -1,0 +1,219 @@
+define("/Assets/enp/2022/js/module/e-module-202208161027.js", function (s, pub) {
+
+
+    if ($('.e-module-202208161027').length > 0) {
+        function module202208161027Fun($target) {
+            var module202208161027Obj = {
+                init: function () {
+
+                    // 获取属性
+                    this.win = $(window);
+                    this.moduleObj = $target;
+                    this.h400TextObj = this.moduleObj.hasClass('h400Text');
+                    this.moduleSlideObj = this.moduleObj.find(".swiper-slide");
+
+                    this.resizeInit(); // resize初始化
+                    this.saveAClass(); // 如果移动端设置了文字在图片下面，保存按钮颜色
+                    this.setWapBtnColor(); // 如果移动端设置了文字在图片下面，设置按钮颜色为黑色
+                    this.judgmentSwiper(); // 判断需不需要执行swiper，如果只有一个就不需要执行。多个就需要执行
+                    this.scrollEvent(); // 设置滚动事件，文字动画效果
+                    this.resizeEvent(); // 设置自适应
+                    this.lazyVideoLink(); // 视频是否加载
+                    this.lazyPicLink(); // 视频是否图片
+                },
+                resizeInit: function () {
+                    this.winw = this.win.width();
+                    this.winh = this.win.height();
+                    // 获取位置
+                    this.scrollTop = this.win.scrollTop();
+                    this.moduleTop = this.moduleObj.offset().top;
+                },
+                saveAClass: function () {
+                    var _this = this;
+                    if (_this.h400TextObj) {
+                        _this.aClassArr = [];
+                        $target.find('a').each(function () {
+                            _this.aClassArr.push($(this).attr('class'));
+                        })
+                    }
+                },
+                setWapBtnColor: function () {
+                    var _this = this;
+                    // 不管pc端按钮是什么颜色，到了移动端都是黑色按钮
+                    if (_this.h400TextObj) {
+                        if (_this.winw < 920) {
+                            $target.find('.e-btn-bd-white-xl').addClass('e-btn-bd-black-xl').removeClass('e-btn-bd-white-xl');
+                            $target.find('.e-btn-bd-white-lg').addClass('e-btn-bd-black-lg').removeClass('e-btn-bd-white-lg');
+                            $target.find('.e-btn-bd-white-video-xl').addClass('e-btn-bd-black-video-xl').removeClass('e-btn-bd-white-video-xl');
+                            $target.find('.e-btn-bd-white-video-lg').addClass('e-btn-bd-black-video-lg').removeClass('e-btn-bd-white-video-lg');
+                            $target.find('.e-btn-bd-red-xl').addClass('e-btn-bd-black-xl').removeClass('e-btn-bd-red-xl');
+                            $target.find('.e-btn-bd-red-lg').addClass('e-btn-bd-black-lg').removeClass('e-btn-bd-red-lg');
+                            $target.find('.e-btn-bd-red-video-xl').addClass('e-btn-bd-black-video-xl').removeClass('e-btn-bd-red-video-xl');
+                            $target.find('.e-btn-bd-red-video-lg').addClass('e-btn-bd-black-video-lg').removeClass('e-btn-bd-red-video-lg');
+
+                        } else {
+                            $target.find('a').each(function (index, elm) {
+                                $(this).attr('class', _this.aClassArr[index]);
+                            })
+                        }
+                    }
+                },
+                judgmentSwiper: function () {
+                    if (this.moduleSlideObj.length > 1) {
+                        if (this.moduleObj.data("swiper-init")) {
+                            return;
+                        }
+                        this.moduleObj.data("swiper-init", true);
+                        this.initSwiper();
+                    }
+                },
+                lazyPicLink: function () {
+                    // 加载图片
+                    if (this.scrollTop + this.winh * 1.5 > this.moduleTop) {
+                        // 当滚动条滚动到当前位置时，加载视频
+                        this.addPicLink();
+                    }
+                },
+                lazyVideoLink: function () {
+                    // 加载视频
+                    if (this.scrollTop + this.winh * 1.5 > this.moduleTop) {
+                        // 当滚动条滚动到当前位置时，加载视频
+                        this.addVideoLink();
+                    }
+                },
+                addPicLink: function () {
+                    this.moduleSlideObj = this.moduleObj.find(".swiper-slide");
+                    this.moduleSlideObj.each(function () {
+                        var $this = $(this);
+                        var src = $this.find('img').attr("data-original");
+                        if ($this.find(".e-bg").css("backgroundImage") != "url(" + src + ")") {
+                            $this.find(".e-bg").css("backgroundImage", "url('" + src + "')");
+                            $this.find(".e-lazy").css("display", "none");
+                        }
+                    })
+                },
+                addVideoLink: function () {
+                    if (this.winw > 1200) {
+                        this.moduleSlideObj = $target.find(".swiper-slide");
+                        this.moduleSlideObj.each(function () {
+                            var $this = $(this);
+                            if ($this.find(".e-bg").data('src') != '' && $this.find('.video').length == 0) {
+                                // 添加video的dom结构
+                                $this.find(".e-bg").append("<video class='video' x-webkit-airplay='true' preload='meta' playsinline='true' webkit-playsinline='true' x5-video-player-type='h5-page' x5-video-player-fullscreen='true' autoplay='autoplay' muted='muted' loop='loop' poster='' src=''></video>");
+                                // 判断视频是否已经赋值，如果赋值了，就不需要再次赋值了。
+                                $this.find('.video').attr("src", $this.find(".e-bg").data('src'));
+                            }
+                        })
+                    } else {
+                        $target.find('.video').remove();
+                    }
+                },
+                initSwiper: function () {
+                    var _this = this;
+                    var slideLength = $target.find(".swiper-slide").length;
+
+                    var mySwiper = new Swiper($target.find(".swiper-container"), {
+                        pagination: { // 设置点点点
+                            el: $target.find('.swiper-pagination'),
+                            clickable: true
+                        },
+                        grabCursor: slideLength > 1 ? true : false,
+                        autoplay: $target.data("auto-time") ? {
+                            delay: $target.data("auto-time"),
+                            stopOnLastSlide: false,
+                            disableOnInteraction: true
+                        } : false,
+                        loop: slideLength > 1 ? true : false, // 设置自动轮播
+                        noSwiping: slideLength > 1 ? false : true,
+                        runCallbacksOnInit: true,
+                        on: {
+                            init: function () {
+                                $target.find(".swiper-pagination").show();
+                            },
+                            slideChangeTransitionEnd: function () {
+                                _this.activeIndex = this.activeIndex;
+                                setTimeout(function () {
+                                    // 根据文字颜色变化底部点点点的颜色
+                                    var $currentSilde = $target.find(".swiper-slide-active");
+                                    var $pr = $currentSilde.parent();
+                                    if ($currentSilde.hasClass('isBlackFont')) {
+                                        $pr.next('.swiper-pagination').addClass('gray');
+                                    } else {
+                                        $pr.next('.swiper-pagination').removeClass('gray');
+                                    }
+                                }, 0)
+                            },
+                            resize: function () {
+                                var _this = this;
+                                setTimeout(function () {
+                                    _this.update(); //窗口变化时，更新Swiper的一些属性，如宽高等
+                                    _this.emit('slideChangeTransitionEnd');
+                                }, 250)
+                            },
+                        }
+                    });
+                    //鼠标覆盖停止自动切换
+                    mySwiper.el.onmouseover = function () {
+                        mySwiper.autoplay.stop();
+                    }
+
+                    //鼠标离开开始自动切换
+                    mySwiper.el.onmouseout = function () {
+                        mySwiper.autoplay.start();
+                    }
+                },
+                scrollEvent: function () {
+                    var _this = this;
+
+                    _this.win.on('scroll.202208161027', function () {
+
+                        // 获取位置
+                        _this.scrollTop = _this.win.scrollTop();
+                        _this.moduleTop = _this.moduleObj.offset().top;
+
+                        _this.lazyVideoLink(); // 视频是否加载
+                        _this.lazyPicLink(); // 视频是否图片
+                    });
+                },
+                resizeEvent: function () {
+                    // 页面resize事件
+                    var _this = this;
+                    var resizeWinw = 0;
+                    var resizeTimer = '';
+                    this.win.on('resize.202208161027', function () {
+                        var winw = _this.win.width();
+                        if (winw != resizeWinw) {
+                            currentWinw = winw;
+                            // 删除之前的定时器
+                            if (resizeTimer) {
+                                clearTimeout(resizeTimer);
+                            }
+                            // 添加新的定时器
+                            resizeTimer = setTimeout(function () {
+                                _this.resizeInit(); // resize初始化
+                                _this.setWapBtnColor(); // 设置按钮颜色
+                                _this.scrollEvent(); // 设置滚动事件，文字动画效果
+                            }, 200)
+                        }
+                    })
+                }
+            };
+            module202208161027Obj.init();
+        }
+
+        // 初始化
+        $('.e-module-202208161027').each(function () {
+            // 防止js文件被执行2次。
+            var _this = $(this);
+            if (_this.data('init')) {
+                return;
+            }
+            _this.data('init', true);
+            module202208161027Fun($(this));
+        })
+    }
+
+
+
+
+});

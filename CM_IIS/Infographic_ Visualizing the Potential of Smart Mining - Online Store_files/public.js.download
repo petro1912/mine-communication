@@ -1,0 +1,45 @@
+function imgError(imgSrc,index,productData,that,isArray){
+    //console.log(index)
+    //注释2，添加promise处理异步问题，
+    return new  Promise((resolve,reject) => {
+        var ImgObj = new Image(); //判断图片是否存在
+            ImgObj.src = imgSrc;
+            ImgObj.onload = function() {
+               // console.log("有效", imgSrc)
+            }
+            ImgObj.onerror =  function() {
+                let imgSrcValue = encodeURIComponent(imgSrc);
+                that.$http.get('/api/item/getImageUrl',{params:{url:imgSrcValue}}).then(function(response){
+
+                    if(response.data.code == 200){
+                        //注释3，采用set设置值，
+                        if(isArray=="Array"){
+                            Vue.set(productData,index, response.data.data)
+                        }else{
+                            Vue.set(productData[index],'thumbnail', response.data.data)
+                        }
+
+                    }else if(response.data.code == 500){
+                        if(isArray=="Array"){
+                            Vue.set(productData,index,"/static/default/img/20220514153821.png")
+                        }else{
+                            Vue.set(productData[index],'thumbnail', "/static/default/img/20220514153821.png")
+                        }
+
+
+
+                    }else{
+                        Vue.set(productData[index],'thumbnail', "/static/default/img/20220514153821.png")
+                        //that.$toast({message: response.data.message,icon: 'warning-o',});
+                    }
+                    resolve()
+                },function(res){
+                    Vue.set(productData[index],'thumbnail', "/static/default/img/20220514153821.png")
+                    //that.$toast({message: response.data.message,icon: 'warning-o',});
+                });
+
+            }
+            resolve()
+
+    })
+}

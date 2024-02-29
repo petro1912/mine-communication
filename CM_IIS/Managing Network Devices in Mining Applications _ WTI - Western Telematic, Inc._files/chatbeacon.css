@@ -1,0 +1,860 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
+
+@keyframes beaconInsert {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+input, textarea {
+    animation: beaconInsert 0.01s;
+}
+
+.androidpaintfix {
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
+}
+
+.b-invite {
+    font-family: 'Lato';
+    font-size: 11px;
+    z-index: 9999;
+}
+
+.b-invite.b-text-invite, .b-invite.b-custom-invite {
+    background-image: url(../images/inlineinvite.png);
+    width: 285px;
+    height: 144px;
+    background-repeat: no-repeat;
+    bottom: 0px;
+    right: 30px;
+    left: auto;
+    top: auto;
+    position: fixed;
+}
+
+.b-invite.b-default-invite {
+    background-image: url(../images/inlineinvite.png);
+    width: 285px;
+    height: 144px;
+    background-repeat: no-repeat;
+    top: -100%;
+    left: 40%;
+    position: fixed;
+}
+
+.b-invite-greeting, .b-invite-text {
+    padding-left: 25px;
+    width: 180px;
+}
+
+.b-invite-greeting {
+    color: #0084c9;
+    font-size: 18px;
+    padding-top: 15px;
+}
+
+
+.b-invite-greeting:after {
+    content: "Hi, can we help you?";
+    position: relative
+}
+
+.b-invite-greeting::after {
+    content: "Hi, can we help you?";
+}
+
+.b-default-invite .b-invite-text,
+.b-custom-invite .b-invite-text,
+.b-text-invite .b-invite-text {
+    height: 50px;
+}
+
+    .b-default-invite .b-invite-text:after,
+    .b-custom-invite .b-invite-text:after {
+        content: "A ChatBeacon team member is available to answer your questions";
+    }
+
+    .b-default-invite .b-invite-text::after,
+    .b-custom-invite .b-invite-text::after {
+        content: "A ChatBeacon team member is available to answer your questions";
+    }
+
+.b-default-invite .b-invite-decline,
+.b-text-invite .b-invite-decline,
+.b-custom-invite .b-invite-decline,
+.b-default-invite .b-invite-accept,
+.b-text-invite .b-invite-accept,
+.b-custom-invite .b-invite-accept {
+    top: 15px;
+    width: 114px;
+    height: 25px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+}
+
+
+.b-default-invite .b-invite-decline,
+.b-text-invite .b-invite-decline,
+.b-custom-invite .b-invite-decline {
+    background-color: gray;
+    left: 30px;
+}
+
+.b-default-invite .b-invite-accept,
+.b-text-invite .b-invite-accept,
+.b-custom-invite .b-invite-accept {
+    background-color: #ee9d19;
+    left: 25px;
+}
+
+.b-invite-decline:after, .b-invite-accept:after {
+    position: relative;
+    top: 3px;
+}
+.b-invite-decline::after, .b-invite-accept::after {
+    position: relative;
+    top: 3px;
+}
+    .b-invite-decline:after {
+        content: "No, thanks";
+    }
+
+     .b-invite-decline::after {
+        content: "No, thanks";
+    }
+
+    .b-invite-accept:after {
+        content: "Yes, lets chat";
+    }
+    .b-invite-accept::after {
+        content: "Yes, lets chat";
+    }
+
+
+
+.b-modern.b-invite-def-show {
+    -webkit-animation: defaultinviteshow 1s forwards;
+    animation: defaultinviteshow 1s forwards;
+}
+
+.b-modern.b-invite-txt-show {
+    -webkit-animation: textinviteshow 1s forwards;
+    animation: textinviteshow 1s forwards;
+}
+
+.b-modern.b-invite-def-hide{
+    -webkit-animation: defaultinvitehide 1s forwards;
+    animation: defaultinvitehide 1s forwards;
+}
+
+.b-modern.b-invite-txt-hide {
+    -webkit-animation: textinvitehide 1s forwards;
+    animation: textinvitehide 1s forwards;
+}
+
+.b-modern.b-invite-cust-show {
+    -webkit-animation: custinviteshow 1s forwards;
+    animation: custinviteshow 1s forwards;
+}
+
+.b-modern.b-invite-cust-hide {
+    -webkit-animation: custinvitehide 1s forwards;
+    animation: custinvitehide 1s forwards;
+}
+
+.b-modern.b-invite-def-show {
+    -webkit-animation: defaultinviteshow 1s forwards;
+    animation: defaultinviteshow 1s forwards;
+}
+
+.b-modern.b-invite-txt-show-marquee {
+    -webkit-animation: textinviteshowmarquee 1s forwards;
+    animation: textinviteshowmarquee 1s forwards;
+}
+
+.b-modern.b-invite-def-hide-marquee {
+    -webkit-animation: defaultinvitehide 1s forwards;
+    animation: defaultinvitehide 1s forwards;
+}
+
+.b-modern.b-invite-txt-hide-marquee {
+    -webkit-animation: textinvitehidemarquee 1s forwards;
+    animation: textinvitehidemarquee 1s forwards;
+}
+
+
+
+
+
+
+.b-relic.b-invite-def-show, .b-relic.b-invite-txt-show {
+    top: 30%;
+    visibility: visible;
+}
+
+.b-relic.b-invite-def-hide, .b-relic.b-invite-txt-hide {
+    top: 0;
+    visibility: hidden;
+}
+
+.b-relic.b-invite-cust-show {
+    bottom: 6%;
+    visibility: visible;
+}
+
+.b-relic.b-invite-cust-hide {
+    bottom: 0;
+    visibility: hidden;
+}
+
+.b-pos-absolute {
+    position: absolute;
+}
+
+.b-pos-fixed {
+    position: fixed;
+}
+
+.b-chat-ctrl {
+    background-color: #DFDFDF;
+    overflow: hidden;
+    position: fixed;
+    font-family: 'Source Sans Pro', sans-serif;
+    border: none;
+    z-index: 999;
+}
+
+.b-chat-ctrl-header, .b-frame-header {
+    height: 9%;
+    background-color: #ee9d19;
+    color: white;
+}
+
+.b-frame-header, .b-frame-footer {
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+    .b-frame-header ul, .b-frame-footer ul {
+        list-style: none;
+        margin: 0;
+        padding: 2px 0 0 0;
+        height: 45px;
+        text-align: right;
+    }
+
+    .b-frame-header li, .b-frame-footer li {
+        display: inline-block;
+        padding-right: 5px;
+        height: 26px;
+        width: 26px;
+    }
+
+
+
+        .b-frame-header li:first-child {
+            position: relative;
+            top: 5px;
+        }
+
+.b-iframe {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    border: none;
+}
+
+.b-chat-ctrl-footer {
+    height: 9%;
+    text-align: left;
+    padding-top: 25px;
+}
+
+.b-panel {
+    height: 100%;
+    width: 100%;
+}
+
+.b-panel-body {
+    height: 80%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.b-panel-header {
+    height: 5%;
+    padding: 5px 0px 0px 7px;
+    text-align: justify;
+    margin: 0 auto;
+    width: 20em;
+}
+
+.b-panel-footer {
+    height: 15%;
+    padding-top: 5px;
+}
+
+.b-queue-name {
+    display: inline-block;
+    margin: 0px;
+    bottom: 5px;
+    position: relative;
+}
+
+.b-display-none, .b-hide-offline, .b-session-banned {
+    display: none !important;
+}
+
+.b-chat-ctrl.b-session-banned {
+    display:block !important
+}
+
+.b-chat-ctrl.b-session-banned > * {
+    display: none !important;
+}
+
+.b-chat-ctrl.b-session-banned::after {
+    content: "You have been banned from chatting"
+}
+
+.b-chat-ctrl.b-session-banned:after {
+    content: "You have been banned from chatting"
+}
+
+
+/*begin animations*/
+@-webkit-keyframes defaultinviteshow {
+    0% {
+        top: -100%;
+        opacity: 0;
+    }
+
+    100% {
+        top: 30%;
+        opacity: 1;
+    }
+}
+
+@keyframes defaultinviteshow {
+    0% {
+        top: -100%;
+        opacity: 0;
+    }
+
+    100% {
+        top: 30%;
+        opacity: 1;
+    }
+}
+
+
+@-webkit-keyframes defaultinvitehide {
+    0% {
+        top: 30%;
+        opacity: 1;
+    }
+
+    100% {
+        top: -100%;
+        opacity: 0;
+    }
+}
+
+@keyframes defaultinvitehide {
+    0% {
+        top: 30%;
+        opacity: 1;
+    }
+
+    100% {
+        top: -100%;
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes custinviteshow {
+     0% {
+        bottom: -144px;
+        opacity: 0;
+    }
+
+    100% {
+        bottom: 75px;
+        opacity: 1;
+    }
+}
+
+@keyframes custinviteshow {
+     0% {
+        bottom: -144px;
+        opacity: 0;
+    }
+
+    100% {
+        bottom: 75px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes custinvitehide {
+    0% {
+        bottom: 75px;
+        opacity: 1;
+    }
+
+    100% {
+        bottom: -144px;
+        opacity: 0;
+    }
+}
+
+@keyframes custinvitehide {
+    0% {
+        bottom: 75px;
+        opacity: 1;
+    }
+
+    100% {
+        bottom: -144px;
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes textinviteshow {
+    0% {
+        bottom: -144px;
+        opacity: 0;
+    }
+
+    100% {
+        bottom: 110px;
+        opacity: 1;
+    }
+}
+
+@keyframes textinviteshow {
+    0% {
+        bottom: -144px;
+        opacity: 0;
+    }
+
+    100% {
+        bottom: 110px;
+        opacity: 1;
+    }
+}
+
+
+
+@-webkit-keyframes textinviteshowmarquee {
+    0% {
+        bottom: -144px;
+        opacity: 0;
+    }
+
+    100% {
+        bottom: 205px;
+        opacity: 1;
+    }
+}
+
+@keyframes textinviteshowmarquee {
+    0% {
+        bottom: -144px;
+        opacity: 0;
+    }
+
+    100% {
+        bottom: 205px;
+        opacity: 1;
+    }
+}
+
+
+@-webkit-keyframes texttinvitehide {
+    0% {
+        bottom: 110px;
+        opacity: 1;
+    }
+
+    100% {
+        bottom:-144px;
+        opacity: 0;
+    }
+}
+
+@keyframes textinvitehide {
+    0% {
+        bottom: 110px;
+        opacity: 1;
+    }
+
+    100% {
+        bottom: -144px;
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes texttinvitehidemarquee {
+    0% {
+        bottom: 205px;
+        opacity: 1;
+    }
+
+    100% {
+        bottom: -144px;
+        opacity: 0;
+    }
+}
+
+@keyframes textinvitehidemarquee {
+    0% {
+        bottom: 205px;
+        opacity: 1;
+    }
+
+    100% {
+        bottom: -144px;
+        opacity: 0;
+    }
+}
+
+
+
+
+/*end animations*/
+.b-toolbox {
+    width: 100%;
+    border-radius: 0 0 0px 0px;
+    box-shadow: 1px 2px 5px #a5a5a5;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    height: 27px;
+    background-color: #ee9d19;
+    margin-top: 1px;
+    text-align: right;
+    top: -27px;
+}
+
+.b-default-gradient {
+    background-color: #ffc579;
+    background-image: linear-gradient(to bottom, #ffc579, #ee9d19);
+}
+
+.b-submit-btn {
+    background-color: #4285f4;
+    color: #fff;
+    overflow: hidden;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.2s;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    border: none;
+}
+
+.b-chat-ctrl-inline {
+    right: 0;
+}
+
+
+.b-chat-ctrl.b-relic.b-chat-ctrl-show {
+    bottom: 0;
+}
+
+.b-waiting-main {
+    text-align: center;
+}
+
+.b-secure .b-panel-chat textarea {
+    width: 70%;
+    padding-right: 28px;
+    overflow-y: scroll;
+}
+
+.b-icon {
+    display: inline-block;
+    position: relative;
+    background: transparent;
+    border: none;
+    padding: 0px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.b-icon-secure {
+    display: none;
+    background-image: url('../images/lock.png');
+    height: 27px;
+    width: 27px;
+    padding: 0;
+}
+
+.b-secure .b-icon-secure {
+    display: inline-block;
+}
+
+.b-chat-ctrl-footer .b-icon-secure {
+    float: right;
+    right: 30px;
+    position: relative;
+}
+
+.b-chat-state-active .b-chat-ctrl-footer .b-icon-secure {
+    display: none;
+}
+
+.b-visibility-hidden {
+    visibility: hidden;
+}
+
+.b-queue-info-btn {
+    height: 100%;
+    width: 100%;
+}
+
+    .b-queue-state:after {
+        position: relative;
+        left: 5%;
+        font-size: 20px;
+        top: 10px;
+    }
+
+    .b-queue-state::after {
+        position: relative;
+        left: 5%;
+        font-size: 20px;
+    }
+
+.b-chat-state-icon {
+    height: 30px;
+    width: 30px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.b-queue-state-away .b-icon-queue {
+    background-image: url(../images/away.png);
+}
+
+.b-queue-state-online .b-icon-queue {
+    background-image: url(../images/online.png);
+}
+
+.b-queue-state-lunch .b-icon-queue {
+    background-image: url(../images/out-to-lunch.png);
+}
+
+.b-queue-state-custom .b-icon-queue {
+    background-image: url(../images/custom.png);
+}
+
+.b-queue-state-backinfew .b-icon-queue {
+    background-image: url(../images/backin5.png);
+}
+
+.b-icon-queue-server {
+     height: 82px;
+    width: 236px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+}
+
+.b-icon-popout {
+    background-image: url(../images/popout.png);
+    height: 26px;
+    width: 26px;
+}
+
+
+.b-icon-close {
+    background-image: url(../images/close.png);
+}
+
+.b-chat-state-prechat .b-chat-state-icon {
+    background-image: url(../images/prechat.png);
+}
+
+.b-chat-state-requested .b-chat-state-icon {
+    background-image: url(../images/waiting.png);
+}
+
+.b-chat-state-active .b-chat-state-icon {
+    background-image: url(../images/chatting.png);
+}
+
+.b-chat-state-offline .b-chat-state-icon,
+.b-chat-state-requestcanceled .b-chat-state-icon {
+    background-image: url(../images/offline.png);
+}
+
+.b-chat-state-postchat .b-chat-state-icon {
+    background-image: url(../images/postchat.png);
+}
+
+.b-icon-right {
+    background-image: url(../images/right.png);
+}
+
+.b-icon-left {
+    background-image: url(../images/left.png);
+}
+
+.b-icon-up {
+    background-image: url(../images/up.png) !important;
+}
+
+.b-icon-down {
+    background-image: url(../images/down.png);
+}
+
+.b-icon-logo {
+    background-image: url(../images/logo.png);
+    height: 21px;
+    width: 56px;
+}
+
+.b-chat-ctrl-footer .b-icon-logo {
+    margin-left: 10px;
+}
+
+.b-chat-btn {
+    z-index: 999;
+}
+
+
+.b-chat-btn .b-icon-up {
+    right: 10px;
+    top: 2px;
+    float: right;
+}
+
+.b-chat-btn .b-icon-queue {
+    left: 10px;
+    height: 35px;
+    width: 35px;
+}
+
+.b-icon img {
+    max-height: 26px;
+    max-width: 26px;
+    height: 100%;
+}
+
+.b-icon-up, .b-icon-down {
+    height: 26px;
+    width: 26px;
+}
+
+.b-relic .b-notication-show {
+    display: block;
+}
+
+
+.b-chat-ctrl iframe {
+    border: none;
+}
+.b-segment-text video, .b-segment-text audio, .b-segment-text img {
+    max-width: 100%;
+    min-width: 50px;
+}
+
+@media screen and (max-width: 960px) {
+    .b-default-invite, .b-text-invite {
+    left: 20%;
+}
+}
+
+@media only screen 
+and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .b-panel-chat {
+        max-height: 895px;
+    }
+
+    .b-segments {
+         height: auto !important;
+     }
+}
+
+.b-send-seg-btn:after, .b-send-email-btn:after, .b-upload-file-btn:after {
+    content: "Send";
+}
+.b-send-seg-btn::after, .b-send-email-btn::after, .b-upload-file-btn::after {
+    content: "Send";
+}
+
+
+.b-survey-btn:after {
+    content: "submit";
+}
+
+.b-survey-btn::after {
+    content: "submit";
+}
+
+.b-segment-operator .b-segment-name, .b-segment-visitor .b-segment-name {
+    color: #3a93cd;
+    font-variant: small-caps;
+    font-weight: bold;
+    text-transform: lowercase;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+
+.b-segment-operator .b-segment-text, .b-segment-visitor .b-segment-text {
+   font-family: 'Source Sans Pro', sans-serif;
+}
+
+.b-chat-btn.b-queue-state-away .b-queue-state-text:after {
+    content: "AWAY, email us";
+}
+
+.b-chat-btn.b-queue-state-online .b-queue-state-text:after {
+    content: "Chat with us";
+}
+
+.b-chat-btn.b-queue-state-lunch .b-queue-state-text:after {
+    content: "Out to lunch";
+}
+
+.b-chat-btn.b-queue-state-backinfew .b-queue-state-text:after {
+    content: "Back in 5 min";
+}
+
+.b-chat-btn.b-queue-state-away .b-queue-state-text::after {
+    content: "AWAY, email us";
+}
+
+.b-chat-btn.b-queue-state-online .b-queue-state-text::after {
+    content: "Chat with us";
+}
+
+.b-chat-btn.b-queue-state-lunch .b-queue-state-text::after {
+    content: "Out to lunch";
+}
+
+.b-chat-btn.b-queue-state-backinfew .b-queue-state-text::after {
+    content: "Back in 5 min";
+}
+
+
+.b-send-seg-btn:after {
+    content: "Send";
+}
+.b-send-seg-btn::after {
+    content: "Send";
+}

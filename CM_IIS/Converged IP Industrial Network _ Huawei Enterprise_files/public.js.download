@@ -1,0 +1,926 @@
+//String 类型扩展, 用法aa.format("thank you {0},{1}." "Tom", "Jerry")
+String.prototype.format = function (args) {
+    var result = this;
+    if (arguments.length > 0) {
+        if (arguments.length == 1 && typeof (args) == "object") {
+            for (var key in args) {
+                if (args[key] != undefined) {
+                    var reg = new RegExp("({" + key + "})", "g");
+                    result = result.replace(reg, args[key]);
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < arguments.length; i++) {
+                if (arguments[i] != undefined) {
+                    var reg = new RegExp("({)" + i + "(})", "g");
+                    result = result.replace(reg, arguments[i]);
+                }
+            }
+        }
+    }
+    return result;
+};
+
+//String 类型扩展，去除字符串头部和尾部尾部的空字符
+String.prototype.trim = function () {
+    var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+    return this.replace(rtrim, '');
+};
+
+//String类的扩展函数, 去除字符串头部的指定字符
+String.prototype.trimStart = function (trimStr, ignoreCase) {
+    if (!trimStr) { return this; }
+    var temp = this;
+
+    if (ignoreCase && ignoreCase == true) {
+        trimStr = trimStr.toLowerCase();
+        temp = temp.toLowerCase();
+    }
+
+    while (true) {
+        if (temp.substr(0, trimStr.length) != trimStr) {
+            break;
+        }
+        temp = temp.substr(trimStr.length);
+    }
+    return temp;
+};
+
+//String类的扩展函数, 去除字符串尾部的指定字符
+String.prototype.trimEnd = function (trimStr, ignoreCase) {
+    if (!trimStr) { return this; }
+    var temp = this;
+
+    if (ignoreCase && ignoreCase == true) {
+        trimStr = trimStr.toLowerCase();
+        temp = temp.toLowerCase();
+    }
+
+    while (true) {
+        if (temp.substr(temp.length - trimStr.length, trimStr.length) != trimStr) {
+            break;
+        }
+        temp = temp.substr(0, temp.length - trimStr.length);
+    }
+    return temp;
+};
+
+//String类的扩展函数, 是否以指定的字符串开头
+String.prototype.startWith = function (str, ignoreCase) {
+    var flag = (ignoreCase && ignoreCase == true) ? "i" : "";
+    var reg = new RegExp("^" + str, flag);
+    return reg.test(this);
+}
+
+//String类的扩展函数, 是否以指定的字符串结尾
+String.prototype.endWith = function (str, ignoreCase) {
+    var flag = (ignoreCase && ignoreCase == true) ? "i" : "";
+    var reg = new RegExp(str + "$", flag);
+    return reg.test(this);
+}
+
+//Number 类型扩展，js数值format
+Number.prototype.format = function (precision, separator) {
+    var parts;
+    var result = this;
+
+    // 处理小数点位数
+    result = (typeof precision !== 'undefined' ? result.toFixed(precision) : result).toString();
+
+    // 分离数字的小数部分和整数部分
+    parts = result.split('.');
+
+    // 整数部分加[separator]分隔, 借用一个著名的正则表达式
+    parts[0] = parts[0].toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + (separator || ','));
+
+    return parts.join('.');
+}
+
+// 对Date的扩展，将 Date 转化为指定格式的String
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
+// 例子： 
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
+Date.prototype.format = function (fmt) { //author: meizz 
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "h+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
+//baseUtils公共方法库，加上命名空间，防止方法冲突
+var baseUtils = baseUtils || {
+
+    //将Loading显示抽成公共方法
+    showLoading: function () {
+        if ($("#enpdloading").length <= 0) {
+            var loading = $("<div id='enpdloading'></div>");
+            var content = $("<div></div>");
+            content.html("<span><img src='/Assets/enp/img/loading.gif' />Loading...</span>");
+            loading.html(content);
+            $("body").append(loading).fadeIn();
+        } else {
+            $("#enpdloading").fadeIn();
+        }
+    },
+
+    //将Loading显示抽成公共方法
+    closeLoading: function () {
+        $("#enpdloading").fadeOut();
+    },
+
+    //取URL上的参数
+    getQueryString: function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var str = window.location.search.substr(1).match(reg);
+        if (str != null) {
+            return decodeURIComponent(str[2]);
+        }
+        return null;
+    },
+
+    //URL是否带?
+    hasQuestionMark: function (url) {
+        var ret = /\?/;
+        return ret.test(url);
+    },
+
+    /*用正则表达式实现html转码*/
+    htmlEncode: function (str) {
+        var s = "";
+        if (!str || str.length == 0) return "";
+        s = str.replace(/&/g, "&amp;");
+        s = s.replace(/</g, "&lt;");
+        s = s.replace(/>/g, "&gt;");
+        s = s.replace(/ /g, "&nbsp;");
+        s = s.replace(/\'/g, "&#39;");
+        s = s.replace(/\"/g, "&quot;");
+        return s;
+    },
+
+    /*用正则表达式实现html解码*/
+    htmlDecode: function (str) {
+        var s = "";
+        if (!str || str.length == 0) return "";
+        s = str.replace(/&amp;/g, "&");
+        s = s.replace(/&lt;/g, "<");
+        s = s.replace(/&gt;/g, ">");
+        s = s.replace(/&nbsp;/g, " ");
+        s = s.replace(/&#39;/g, "\'");
+        s = s.replace(/&quot;/g, "\"");
+        return s;
+    },
+
+    //获取当前站点的URL
+    getHostUrl: function () {
+        var url = location.protocol + "//" + location.host;
+        return url;
+    },
+
+    //从数组中删除指定的元素
+    arrayRemove: function (array, val) {
+        var index = array.indexOf(val)
+        if (index > -1) {
+            array.splice(index, 1);
+        }
+    },
+
+    //检查是登录,前台有些功能是登录才执行的
+    checkLogin: function (objArg) {
+        try {
+            if (location.protocol == "https:") {
+                $(".nav-fr span[data-id='{FB9A84D7-C9A1-4774-BD68-04E9BA2D726E}'], .nav-fr span[data-id='{6E9B06D4-8D3A-499D-9B15-1605DA7FA3E0}']").each(function (i, o) {
+                    var $t = $(this).find("a");
+                    var h = $t.attr("href");
+                    $t.attr("href", h.replace("redirect=http%3a", "redirect=https%3a").replace("rediurl=http%3a", "rediurl=https%3a"));
+                });
+            }
+        } catch (err) {
+        }
+        var forceLogin = objArg.forceLogin == undefined ? true : objArg.forceLogin;
+        objArg.isLogin = false;
+        objArg.userId = "";
+
+        var uid = $.cookie("uid");
+        var hssoUniportal = $.cookie("hwsso_uniportal");
+        var backLoginUid = $.cookie("login_uid");//后台登录
+        //if ((hssoUniportal && hssoUniportal != "\"\"") || backLoginUid || uid) {
+        var userStatusUrl = $("#hfUserstate").val();
+        if (userStatusUrl && userStatusUrl != "") {
+            userStatusUrl += "?action=checklogin";
+            baseUtils.ajaxRequest({
+                url: userStatusUrl,
+                dataType: 'json',
+                cache: false,
+                async: false,
+                showLoading: false,
+                success: function (data) {
+                    if (data) {
+                        objArg.userId = data.UserId;
+                        objArg.isLogin = data.IsLogin;
+                    }
+
+                    if (objArg.isLogin == false) {
+                        if (forceLogin == true)
+                            window.location.href = getLoginUrl();
+                        else {
+                            if (objArg.failCallBack && typeof (objArg.failCallBack) == "function")
+                                objArg.failCallBack(objArg);
+                        }
+                    }
+                    else {
+                        if (objArg.callBack && typeof (objArg.callBack) == "function")
+                            objArg.callBack(objArg);
+                    }
+                }
+            });
+        }
+        //}
+        //else {
+        //    if (objArg.isLogin == false) {
+        //        if (forceLogin == true)
+        //            window.location.href = getLoginUrl();
+        //        else {
+        //            if (objArg.failCallBack && typeof (objArg.failCallBack) == "function")
+        //                objArg.failCallBack(objArg);
+        //        }
+        //    }
+        //}
+    },
+
+    //封装jQuery ajax方法，自动调用loading遮围罩；如不传Url则取当前页面绑定Service的URL
+    ajaxRequest: function (ajaxObj) {
+        var url = ajaxObj.url;
+        var type = (ajaxObj.type || "GET");
+        var dataType = (ajaxObj.dataType || "json");
+        var vAsync = (ajaxObj.async == undefined ? true : ajaxObj.async);
+        var cache = (ajaxObj.cache == undefined ? true : ajaxObj.cache);
+        var showLoading = (ajaxObj.showLoading == undefined ? true : ajaxObj.showLoading);
+
+        if (url == undefined || url == "") {
+            var path = window.location.href;
+            path = path.replace("#", "");
+            if (baseUtils.hasQuestionMark(path)) url = path + "&d=ws";
+            else url = path + "?d=ws";
+        }
+
+        $.ajax({
+            url: url,
+            type: type,
+            dataType: dataType,
+            cache: cache,
+            async: vAsync,
+            data: ajaxObj.data,
+            beforeSend: function (XMLHttpRequest) {
+                showLoading && baseUtils.showLoading();
+
+                if (ajaxObj.beforeSend && typeof (ajaxObj.beforeSend) == "function") ajaxObj.beforeSend(XMLHttpRequest);
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                if (ajaxObj.complete && typeof (ajaxObj.complete) == "function") ajaxObj.complete(XMLHttpRequest, textStatus);
+
+                showLoading && baseUtils.closeLoading();
+            },
+            success: function (data, textStatus, jqXHR) {
+                if (ajaxObj.success && typeof (ajaxObj.success) == "function") ajaxObj.success(data, textStatus, jqXHR);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //alert(textStatus + errorThrown);
+                if (ajaxObj.error && typeof (ajaxObj.error) == "function") ajaxObj.error(XMLHttpRequest, textStatus, errorThrown);
+            }
+        });
+    },
+
+    //二维码
+    checkCapta: function ($target, callback, before) {
+        if ($.fn.captaSlide) {
+            if (typeof before == "function") {
+                before();
+            }
+            $target.html("").captaSlide($target.data("size"), callback);
+        }
+    }
+};
+
+var supportUrl = location.protocol + "//support.huawei.com";
+var language = $("#gMarketingLang2").val();
+$(function () {
+    LoginCookieTipsNew();
+    GetUserInfoNew();
+    //SetCodeRegCookies();
+
+    $(".header-new .Find_support,.e-module-202211220925 .Find_support").click(function () {
+        var type = $(this).parents('.productSupportDivNew').data("type");
+        var key = $(this).parents('.productSupportDivNew').find(".support_input_focus").val(); ///关键字
+        var lang = $(this).parents('.productSupportDivNew').find(".Find_Language").val(); ///语言
+        if (lang == undefined || lang == "") {
+            lang = "en";
+        }
+        if (type == "all") {
+            OpenTheSearch(key);
+        } else {
+            window.open(supportUrl + "/enterprisesearch?lang=" + lang + "#type=searchAll&keyword=" + key);
+        }
+
+        var historySearch="";
+        if ($("#historySearch").length>0) {
+           historySearch=","+ $("#historySearch").val()+","
+        }
+        //if (historySearch.indexOf(","+language+",") > -1) {
+        //    var cookieHis = getCookie("search_history_kw");
+        //    var history = {};
+        //    if (cookieHis != null && cookieHis != "") {
+        //        history = JSON.parse(cookieHis);
+        //        if (history != undefined && history != null) {
+        //            history[key] = new Date().getTime();
+        //        }
+        //    } else {
+        //        history[key] = new Date().getTime();
+        //    }
+        //    setCookie("search_history_kw", JSON.stringify(history), null, 720);
+        //}
+
+        var data = {
+            tealium_event: "search",
+            eventCat: "search",
+            eventAct: "search",
+            eventLbl: key,
+            search_keyword: key,
+            content_name: key,
+            click_name: "search",
+            click_type: "action"
+        }
+        utagEvent(data);
+    });
+
+    $(".zl-pc-searching-tip a").off().on("click", function () {
+        $(this).parents(".nav-searchbit-box").find(".support_input_focus").val($(this).attr("title"));
+        $(this).parents(".productSupportDivNew").find(".Find_support").trigger("click");
+        $(".zl-pc-searching-tip").hide();
+    });
+
+    var tacticCode = $("#hid_tacticCode").val();
+    var regionLang = $("#hidLangRegionName").val();
+    var priceUrl = location.protocol + "//" + location.host + "/" + regionLang + "/how-to-buy/get-price-info";
+    var priceUrlEn = location.protocol + "//" + location.host + "/en/how-to-buy/get-price-info";
+
+    //a链接有target='_blank'加上rel='noreferrer noopener', 所有外链加 rel='nofollow', 
+    $("a").each(function (index, elem) {
+        var $this = $(elem);
+        var link = $this.attr("href");
+        if ($this.attr("target") == "_blank") {
+            var rel = $this.attr("rel");
+            if (rel) rel = rel + " noopener";
+            else rel = "noopener";
+
+            $this.attr("rel", rel);
+        }
+
+        //getpriceinfo传参 
+        if (tacticCode && link && (link.startWith("/" + regionLang + "/how-to-buy/get-price-info", true) || link.startWith(priceUrl, true) || link.startWith("/en/how-to-buy/get-price-info", true) || link.startWith(priceUrlEn, true))) {
+            if (!baseUtils.hasQuestionMark(link)) link += "?source_website=" + tacticCode;
+            else {
+                //不包含source_website才加此参数
+                if (link.indexOf("source_website=") < 0) link += "&source_website=" + tacticCode;
+            }
+
+            $this.attr("href", link);
+        }
+
+        //if (link && (link.startWith("https://") || link.startWith("http://"))) {
+        //    if (link.indexOf(location.host) < 0) $this.attr("rel", $this.attr("rel") ? ($this.attr("rel") + " nofollow") : "nofollow");
+        //}
+    });
+
+    /*
+     页面富文本埋码class与标签字段
+     用法：加class ebg-analytics,数据标签data-eventcat,data-eventact,data-eventlbl,data-enventval,data-clickname,data-clicktye
+    */
+    $(".ebg-common-event").on("click", function () {
+        var $this = $(this);
+        var data = {
+            tealium_event: $this.data("eventact") || "",
+            eventCat: $this.data("eventcat") || "",
+            eventAct: $this.data("eventact") || "",
+            eventLbl: $this.data("eventlbl") || "",
+            enventVal: $this.data("enventval") || "",
+            content_name: $this.data("eventcat") || "",
+            click_name: $this.data("clickname") || "",
+            click_type: $this.data("clicktype") || ""
+        }
+
+        if (data.eventCat == "" && data.eventAct == "" && data.eventLbl == "" && data.enventVal == "" && data.click_name == "" && data.click_type == "") return;
+
+        utagEvent(data);
+    });
+});
+
+function OpenTheSearch(key) {
+    
+    if (key != "") {
+
+        var keyword = key;
+
+        var switchSearch = "";
+        if ($("#switchSearch").length > 0) {
+            switchSearch = "," + $("#switchSearch").val() + ","
+        }
+        if (switchSearch.indexOf("," + language + ",") > -1) {
+            try {
+                if ($("#categorytype").val() != undefined && $("#categorytype").val() != '') {
+                    window.open("//e.huawei.com/" + $("#hidLangRegionName").val() + "/marketingsearch/web/#/?lang=" + $("#gMarketingLang1").val() + "&site=" + $("#gMarketingLang2").val() + "&keyword=" + encodeURIComponent(keyword) + "&getitAddress=" + encodeURIComponent("lang=" + $("#gSupportLang1").val() + "#lang=" + $("#gSupportLang2").val() + "&type=" + $("#categorytype").val() + "&keyword=" + keyword));
+                   
+                } else {
+                    window.open("//e.huawei.com/" + $("#hidLangRegionName").val() + "/marketingsearch/web/#/?lang=" + $("#gMarketingLang1").val() + "&site=" + $("#gMarketingLang2").val() + "&keyword=" + encodeURIComponent(keyword) + "&getitAddress=" + encodeURIComponent("lang=" + $("#gSupportLang1").val() + "#lang=" + $("#gSupportLang2").val() + "&type=ALL&keyword=" + keyword));
+                    
+                }
+
+            } catch (ex) {
+                window.open("//e.huawei.com/" + $("#hidLangRegionName").val() + "/marketingsearch/web/#/?lang=" + $("#gMarketingLang1").val() + "&site=" + $("#gMarketingLang2").val() + "&keyword=" + encodeURIComponent(keyword) + "&getitAddress=" + encodeURIComponent("lang=" + $("#gSupportLang1").val() + "#lang=" + $("#gSupportLang2").val() + "&type=ALL&keyword=" + keyword));
+               
+            }
+        } else {
+            keyword = encodeURIComponent(key);
+            try {
+                if ($("#categorytype").val() != undefined && $("#categorytype").val() != '') {
+                    window.open("//e.huawei.com/enterprisesearch?lang=" + $("#gSupportLang1").val() + "#lang=" + $("#gSupportLang2").val() + "&type=" + $("#categorytype").val() + "&keyword=" + keyword);
+                } else {
+                    window.open("//e.huawei.com/enterprisesearch?lang=" + $("#gSupportLang1").val() + "#lang=" + $("#gSupportLang2").val() + "&type=ALL&keyword=" + keyword);
+                }
+            } catch (ex) {
+                window.open("//e.huawei.com/enterprisesearch?lang=" + $("#gSupportLang1").val() + "#lang=" + $("#gSupportLang2").val() + "&type=ALL&keyword=" + keyword);
+            }
+        }
+    }
+}
+
+/*
+ 功能：获取我的空间的cookies函数
+ 参数：name，cookie名字
+ */
+function baseGetSpaceCookieValue(name) {
+    var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+    if (arr != null)
+        return arr[2];
+    return null;
+}
+
+function GetUserInfoNew() {
+    var vIsUidLogin = baseGetSpaceCookieValue("uid");
+    var IsLogin = baseGetSpaceCookieValue("hwsso_uniportal");
+    var IsBackLogin = baseGetSpaceCookieValue("login_uid");//后台登录
+    //if ((IsLogin != null && IsLogin != "undefined" && IsLogin != "") || (IsBackLogin != null && IsBackLogin != "undefined" && IsBackLogin != "") || (vIsUidLogin != null && vIsUidLogin != "undefined" && vIsUidLogin != "")) {
+    var userStatusUrl = $("#hfUserstate").val();
+    if (userStatusUrl != "") {
+        userStatusUrl += "?action=userstate&currentUrl=" + encodeURI(window.location);
+        $.ajax({
+            url: userStatusUrl,
+            dataType: 'json',
+            cache: false,
+            async: true,
+            success: function (data) {
+                if (data.Stats) {
+                    //PC
+                    $(".ebg-module-gblnav .top-nav-height .con").addClass("certification");
+                    //wap
+                    $(".zl-pc-header-box .main-header .nav-new").addClass("certification");
+
+                    $.cookie("accountid", data.UserName, { path: '/' });
+                    $.cookie("usertype", data.UserType, { path: '/' });
+                    //取得用户类型并设置cookie
+                    $.cookie("wwwusertype", data.WWWUserType, { path: '/' });
+                    $.cookie('SpaceUpdateCount', data.UpdateCount, { path: '/' });
+
+                    //增加对产品forpartner支持
+                    try {
+                        if (productForPartners && typeof (productForPartners) == "function") {
+                            productForPartners();
+                            return false;
+                        } else {
+                            console.log("no productForPartners function");
+                        }
+                    } catch (e) {
+                    }
+                }
+            },
+            error: function (ex) {
+                //alert("GetUserInfo error!");
+            }
+        });
+    }
+    //}
+}
+
+
+function LoginCookieTipsNew() {
+    //中英文才显示我的空间
+    if (($("#gLanguageCurrent").val() == "cn") || ($("#gLanguageCurrent").val() == "zh") || ($("#gLanguageCurrent").val() == "en")) {
+        //cookie说明：login_uid：在测试环境有效；uid在正式环境有效；accountid：在正式测试都有效，但是此cookie在登陆和注销状态下都会存在
+        var UID = "";
+        if (GetCookieValueNew("login_uid") != null) {
+            UID = GetCookieValueNew("login_uid");
+        }
+        if (GetCookieValueNew("uid") != null) {
+            UID = GetCookieValueNew("uid");
+        }
+
+        //必须是登陆状态才允许控制cookie显示隐藏
+        if (UID != "") {
+            var NoNotice = GetCookieValueNew('SpaceTimes');
+            if (NoNotice == null || NoNotice == "" || NoNotice == "undefined") {
+                var SpaceCookie = GetCookieValueNew("SpaceCookie");
+                if (SpaceCookie == null || SpaceCookie == "" || SpaceCookie == "undefined") {
+                    $.cookie('SpaceCookie', "show_my_space", { path: '/' });
+                    $(".zl-pc-logined-tip").show();
+
+                    $("#noshow_myspace").click(function () {
+                        if ($('#noshow_myspace').prop('checked')) {
+                            $.cookie('SpaceTimes', "no_notice", { expires: 90, path: '/' });
+                        }
+                        else {
+                            DelCookieNew("SpaceTimes");
+                        }
+                        $(".zl-pc-logined-tip").hide();
+                    });
+                }
+            }
+        }
+    }
+}
+
+
+//设置我的空间的cookie by yangpeng
+function DelCookieNew(name) {
+    var exp = new Date(); //当前时间
+    exp.setTime(exp.getTime() - 1);
+    var cval = GetCookieValueNew(name);
+    if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString() + ";path=/";
+}
+/*
+ 功能：获取cookies函数
+ 参数：name，cookie名字
+ */
+function GetCookieValueUnescapeNew(name) {
+    var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+    if (arr != null)
+        return unescape(arr[2]);
+    return null;
+
+}
+/*
+ 功能：获取cookies函数
+ 参数：name，cookie名字
+ */
+function GetCookieValueNew(name) {
+    var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+    if (arr != null)
+        return arr[2];
+    return null;
+
+}
+
+var winW = $(window).width();
+
+//打开“联系我们”浮层
+function openContact() {
+    if ($("#gLanguageCurrent").val() == 'ar-sa') {
+        $(".contact_btn").addClass("open");
+        $(".contact_btn b").show();
+        $(".contact_layer").animate({
+            'left': 35
+        }, 330);
+    }
+    else {
+        $(".contact_layer").css({ "margin-top": $(".contact_btn").css("margin-top") });
+        $(".contact_layer").animate({ "right": 35 }, 300);
+        $(".contact_btn").addClass("open");
+        $(".contact_btn b").show();
+        closeCompare();//关闭对比框
+        closeCart(); //关闭购物车
+    }
+}
+
+//关闭“联系我们”浮层
+function closeContact() {
+    if ($("#gLanguageCurrent").val() == 'ar-sa') {
+        $(".contact_btn").removeClass("open");
+        $(".contact_btn b").hide();
+        $(".contact_layer").animate({
+            'left': -250
+        });
+    } else {
+        $(".contact_layer").animate({ "right": -250 }, 300);
+        $(".contact_btn").removeClass("open");
+        $(".contact_btn b").hide();
+    }
+}
+
+
+//关闭对比框
+function closeCompare() {
+    var compareBox = $("#compare_column");
+    if (winW > 768) {
+        compareBox.animate({ "right": -335 }, 300);
+    } else {
+        compareBox.animate({ "right": "-100%" }, 300);
+    }
+    $(".compare_btn b").hide();
+    $(".compare_btn").removeClass("open");
+}
+
+
+//关闭购物车
+function closeCart() {
+    if ($(".shopping_all").length == 0) {
+        if (winW > 768) {
+            $("#shopping_cart").animate({ "right": -335 }, 300);
+        } else {
+            $("#shopping_cart").animate({ "right": "-100%" }, 300);
+        }
+    } else {
+        if (winW > 980) {
+            $("#shopping_cart").animate({ "right": -335 }, 300);
+        } else {
+            $("#shopping_cart").animate({ "right": "-100%" }, 300);
+        }
+    }
+    $(".shopping_cart").removeClass("bg");
+    $(".shopping_btn b").hide();
+    $(".shopping_btn").removeClass("open");
+}
+
+//控制图片等比例缩放  By-yangsai 20151208	 
+function controlImgH(imgLiObj, maxImgH) {
+    $(imgLiObj).each(function () {
+        var thisImgH = $(this).find("img").height();
+        if (thisImgH > maxImgH) {
+            $(this).find("img").css({ "max-height": maxImgH, "width": "auto", "margin-top": 0 });
+        } else if ($(this).parents().hasClass("product_series") || $(this).parents().hasClass("orders_wrap") || $(this).parents().hasClass("compare_result_table")) {
+            if (thisImgH <= 100) {
+                $(this).find("img").css({ "margin-top": 20 });
+            }
+        } else {
+            $(this).find("img").css({ "max-height": "none", "width": "100%", "margin-top": 0 });
+        }
+
+
+        $(this).addClass("visited");
+    })
+}
+
+function setCookie2Hours(key, value) {
+    var exp = new Date();
+    exp.setTime(exp.getTime() + 2 * 60 * 60 * 1000); //存2小时
+    document.cookie = key + "=" + encodeURIComponent(value) + ";expires=" + exp.toGMTString() + ";domain=.huawei.com;path=/";
+}
+
+//判断字符串是否为空
+function isEmpty(input) {
+    var temp = $.trim(input);
+    if (!input || input == "" || input == "null" || input == "undefined") return true;
+
+    return false;
+}
+
+//function SetCodeRegCookies() {
+//    var setSitecode_register_parma;
+//    var setSiteCode_register_parma_old;
+//    $.each(["source", "utm_campaign", "utm_source", "utm_medium", "utm_content", "utm_term", "utm_object"], function (idx, val) {
+//        if (baseUtils.getQueryString(val)) {
+//            setSitecode_register_parma = setSitecode_register_parma || {};
+//            setSitecode_register_parma[val] = baseUtils.getQueryString(val);
+//        }
+//    })
+//    $.each(["ic_source", "ic_medium", "ic_campaign"], function (idx, val) {
+//        var urlValue = baseUtils.getQueryString(val);
+//        setSiteCode_register_parma_old = setSiteCode_register_parma_old || {};
+//        val = val.replace("ic", "utm");
+//        if (urlValue) {
+//            setSiteCode_register_parma_old[val] = urlValue;
+//        }
+//        //如果ic_source是这个_形式表示组合键ic_source + ic_campaign
+//        var sourceValue = baseUtils.getQueryString("ic_source");
+//        if (val == "utm_source" && (!isEmpty(sourceValue) && sourceValue.indexOf("_") != -1)) {
+//            setSiteCode_register_parma_old[val] = sourceValue.slice(0, sourceValue.lastIndexOf("_"))
+//        }
+
+//        if ((isEmpty(urlValue)) && val == "utm_campaign" && (!isEmpty(sourceValue) && sourceValue.indexOf("_") != -1)) {
+//            setSiteCode_register_parma_old[val] = sourceValue.slice(sourceValue.lastIndexOf("_") + 1)
+//        }
+//    })
+
+//    if (setSitecode_register_parma && !$.isEmptyObject(setSitecode_register_parma)) {
+//        setCookie2Hours("sitecode_register_parma", JSON.stringify(setSitecode_register_parma), null, 2);
+//    } else if (setSiteCode_register_parma_old && !$.isEmptyObject(setSiteCode_register_parma_old)) {
+//        setSitecode_register_parma = setSiteCode_register_parma_old;
+//        setCookie2Hours("sitecode_register_parma", JSON.stringify(setSiteCode_register_parma_old), null, 2);
+//    } else {
+        //try {
+        //    setSitecode_register_parma = JSON.parse($.cookie("sitecode_register_parma"));
+        //} catch (e) {
+        //    setSitecode_register_parma = {};
+        //}
+    //}
+//}
+
+function downloadUtagEvent(id, type, downloadUrl) {
+    var pageType = "";
+    if (type) {
+        if (type == "material") pageType = "material-detail-page";
+        else if (type == "video") pageType = "video-detail-page";
+    }
+
+    if (pageType == "") return;
+
+    $.ajax({
+        url: $("#hidUtagServiceUrl").val(),
+        data: { pagetype: pageType, itemid: id, lang: $("#gLanguageCurrent").val() },
+        async: false,
+        success: function (data) {
+            var dwData = {
+                tealium_event: (type == "material") ? "material_download" : "video_download",
+                eventCat: (type == "material") ? "material" : "videos",
+                action_location_url: downloadUrl || location.href,
+                eventAct: (type == "material") ? "material_download" : "video_download",
+                eventLbl: (type == "material") ? data.material_name : data.video_name,
+                //offer_type: (type == "material") ? "material" : "video",
+                content_id: id,
+                content_name: (type == "material") ? data.material_name : data.video_name,
+                material_type: data.material_type,
+                product_tag: data.product_tag,
+                solution_tag: data.solution_tag,
+                industry_tag: data.industry_tag,
+                click_name: (type == "material") ? "material_download" : "video_download",
+                click_type: "download"
+            };
+
+            if (type == "material") dwData.download_file_name = data.material_name;
+            else if (type == "video") dwData.download_file_name = data.video_name;
+
+            utagEvent(dwData);
+        }
+    });
+}
+
+function utNav(eventName, navTitle, navUrl) {
+    if (typeof (utag) == "undefined" || typeof (utag.link) == "undefined") return;
+
+    if (!navUrl) navUrl = location.href;
+    if (!navUrl.startWith("http://") && !navUrl.startWith("https://") && navUrl.indexOf(".huawei.com") < 0 && navUrl.indexOf(location.host) < 0) navUrl = location.protocol + "//" + location.host + navUrl;
+
+    var des = navTitle + "|" + navUrl;
+    var data = {
+        tealium_event: eventName,
+        language: $("#hidLangRegionName").val(),
+        event_des: des
+    };
+
+    utag.link(data);
+}
+
+function utClick(eventName, key, title) {
+    if (typeof (utag) == "undefined" || typeof (utag.link) == "undefined") return;
+
+    var des = key + "|" + title;
+    var data = {
+        tealium_event: eventName,
+        language: $("#hidLangRegionName").val(),
+        event_des: des
+    };
+
+    utag.link(data);
+}
+
+function utEnter(eventCat, eventAct, eventLbl, enventVal) {
+    if (typeof (utag) == "undefined" || typeof (utag.link) == "undefined") return;
+
+    if (!eventCat || !eventAct) return;
+
+    var data = {
+        eventCat: eventCat,
+        eventAct: eventAct,
+        eventLbl: eventLbl || "",
+        enventVal: enventVal || ""
+    }
+
+    utag.link(data);
+}
+
+function utShare(channel) {
+    var data = {
+        tealium_event: "social_share",
+        content_name: channel || "",
+        eventCat: "share",
+        eventAct: "social_share",
+        eventLbl: channel || "",
+        enventVal: "",
+        click_name: "social_share",
+        click_type: "action"
+    }
+
+    utagEvent(data);
+}
+
+//eventName
+function utFormRegister(eloquaParams) {
+    if (typeof (utag) == "undefined" || typeof (utag.link) == "undefined" || eloquaParams == null) return;
+
+    var userId = $.cookie("accountid");
+    var userType = $.cookie("wwwusertype");
+
+    if (!userType) userType = "";
+    if (!userId) {
+        userId = "";
+        userType = "";
+    }
+
+    var data = {
+        tealium_event: eloquaParams.eventName,
+        user_id: userId,
+        user_type: userType,
+        page_language: $("#hidLangRegionName").val(),
+        c_first_name: eloquaParams.firstName,
+        c_last_name: eloquaParams.lastName,
+        c_email: eloquaParams.emailAddress,
+        c_telephone: eloquaParams.mobilePhone,
+        c_type: userType,
+        c_industry: eloquaParams.industry1,
+        c_job_title: eloquaParams.title,
+        c_country: eloquaParams.Country,
+        c_city: eloquaParams.Country,
+        c_company: eloquaParams.city,
+        language: $("#hidLangRegionName").val(),
+        product_tag: eloquaParams.product_tag,
+        solution_tag: eloquaParams.solution_tag,
+        industry_tag: eloquaParams.industry_tag,
+        material_id: eloquaParams.fileid,
+        material_name: eloquaParams.FileName,
+        material_url: $("#interceptionUrl").val() + "=" + $("#interceptionId").val(),
+        material_type: $("#interceptionType").val()
+    }
+
+    utag.link(data);
+}
+
+//20191231已失效
+function gaClick(action, actType, pageTag, eventType, pageTitle) {
+    if (typeof (ga) == "undefined") return;
+
+    if (!pageTitle) pageTitle = document.title;
+
+    try {
+        //ga('send', 'event', 'get/pricing', 'click', 'page-title')
+        ga(action, actType, pageTag, eventType, pageTitle);
+    } catch (err) { };
+}
+
+//utag事件埋码封装
+function utagEvent(data) {
+    if (typeof (utag) == "undefined" || typeof (utag.link) == "undefined" || !data) return;
+
+    //设置公共字段
+    //data.site_name = "EBG";
+    //data.site_type = "website";
+    data.action_location_type = "EBG Website";
+    data.action_location_name = "e.huawei.com";
+    data.action_location_url = data.action_location_url || window.location.href;
+    data.user_type = data.user_type || ($.cookie("wwwusertype") || "");
+    data.tactic_code = data.tactic_code || ($("#hidutag_tacticcode").val() || "");
+    data.country_code = $("#hidLangRegionName").val() || "";
+    data.level1 = $("#hidutag_level1").val();
+    data.level2 = $("#hidutag_level2").val();
+    data.chapter1 = $("#hidutag_chapter1").val();
+    data.chapter2 = $("#hidutag_chapter2").val();
+    data.chapter3 = $("#hidutag_chapter3").val();
+    data.at_page_name = $("#hidutag_pagename").val();
+    data.p_url = window.location.href;
+    data.customer_id = $.cookie("uid") || $.cookie("login_uid") || "";
+    data.login_status = ($.cookie("uid") || $.cookie("login_uid")) ? "yes" : "no";
+    data.action = data.tealium_event || "";
+    data.platform_name = "EBG";
+    data.platform_type = "Website";
+
+    utag.link(data);
+}
+
+function redirectLogin(redirectUrl) {
+    window.location.href = getLoginUrl(redirectUrl);
+}
+
+function getLoginUrl(redirectUrl) {
+    redirectUrl = redirectUrl || window.location.href;
+    var url = $("#hidLoginUrl").val() + "?redirect=" + encodeURIComponent(redirectUrl) + "&lang=" + $("#gLanguageCurrent").val().replace("-", "_");
+    return url;
+}
+
